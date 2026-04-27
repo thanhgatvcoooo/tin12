@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đề Cương Ôn Tập Tin Học 12 | Thắng Lê (DZ)</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #1e40af;
+            --success-color: #16a34a;
+            --danger-color: #dc2626;
+            --bg-color: #f3f4f6;
+            --card-bg: #ffffff;
+            --text-main: #1f2937;
+            --text-muted: #6b7280;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        /* Welcome Overlay */
+        #welcome-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            padding: 20px;
+        }
+        .welcome-card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            max-width: 500px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            animation: popIn 0.5s ease-out forwards;
+        }
+        @keyframes popIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .welcome-card h2 { color: var(--primary-color); margin-bottom: 15px; }
+        .welcome-card p { margin-bottom: 20px; font-size: 1.1rem; }
+        .btn-start {
+            background: var(--primary-color); color: white;
+            border: none; padding: 12px 30px; font-size: 1.2rem;
+            border-radius: 8px; cursor: pointer; font-weight: bold;
+            transition: 0.3s;
+        }
+        .btn-start:hover { background: var(--secondary-color); }
+
+        /* Header */
+        .header {
+            position: sticky;
+            top: 0;
+            background: var(--card-bg);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+        }
+        .author-info {
+            font-weight: bold;
+            color: var(--primary-color);
+            display: flex;
+            flex-direction: column;
+        }
+        .author-name { font-size: 1.2rem; }
+        .author-class { font-size: 0.9rem; color: var(--text-muted); }
+        
+        .timer-box {
+            background: var(--danger-color);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .timer-warning { animation: blink 1s infinite; }
+        @keyframes blink { 50% { opacity: 0.5; } }
+
+        /* Main Container */
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 0 15px;
+        }
+
+        .section-header {
+            background: var(--primary-color);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            margin: 30px 0 15px 0;
+            font-weight: bold;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 6px rgba(37, 99, 235, 0.2);
+        }
+
+        .question-card {
+            background: var(--card-bg);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            border: 1px solid #e5e7eb;
+            transition: 0.3s;
+        }
+        .question-text {
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            color: var(--text-main);
+        }
+
+        /* Multiple Choice */
+        .option-label {
+            display: block;
+            padding: 12px 15px;
+            margin-bottom: 10px;
+            background: #f9fafb;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.2s;
+            position: relative;
+        }
+        .option-label:hover { background: #f3f4f6; }
+        .option-label input { margin-right: 10px; transform: scale(1.2); }
+
+        /* True/False styles */
+        .tf-item {
+            margin-bottom: 15px;
+            padding: 15px;
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+        }
+        .tf-item p { margin-bottom: 10px; font-weight: 500; }
+        .tf-controls { display: flex; gap: 15px; }
+        .tf-controls label {
+            flex: 1; text-align: center; padding: 10px;
+            background: white; border: 1px solid #d1d5db;
+            border-radius: 6px; cursor: pointer;
+        }
+
+        /* Textarea */
+        textarea {
+            width: 100%; padding: 15px;
+            border: 1px solid #d1d5db; border-radius: 8px;
+            font-size: 1rem; min-height: 120px; resize: vertical;
+        }
+
+        /* Buttons */
+        .btn-submit {
+            width: 100%; padding: 16px;
+            background: var(--success-color); color: white;
+            font-size: 1.2rem; font-weight: bold; border: none;
+            border-radius: 8px; cursor: pointer; margin: 20px 0 40px 0;
+            box-shadow: 0 4px 6px rgba(22, 163, 74, 0.3);
+            transition: 0.3s;
+        }
+        .btn-submit:hover { background: #15803d; }
+        .btn-submit:disabled { background: #9ca3af; cursor: not-allowed; box-shadow: none; }
+
+        /* Result Styles (Applied via JS) */
+        .correct-answer-highlight { background: #dcfce7 !important; border-color: var(--success-color) !important; font-weight: bold; }
+        .wrong-answer-highlight { background: #fee2e2 !important; border-color: var(--danger-color) !important; }
+        
+        .feedback-badge {
+            display: inline-block; padding: 4px 8px; border-radius: 4px;
+            font-size: 0.85rem; font-weight: bold; margin-top: 10px;
+        }
+        .badge-correct { background: var(--success-color); color: white; }
+        .badge-wrong { background: var(--danger-color); color: white; }
+
+        #score-board {
+            display: none; background: var(--card-bg);
+            padding: 30px; border-radius: 12px;
+            text-align: center; margin-bottom: 30px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            border-top: 6px solid var(--primary-color);
+        }
+        .score-circle {
+            width: 120px; height: 120px;
+            border-radius: 50%; background: var(--primary-color);
+            color: white; display: flex; align-items: center;
+            justify-content: center; font-size: 2.5rem; font-weight: bold;
+            margin: 0 auto 20px auto;
+        }
+        
+        .solution-box {
+            display: none; margin-top: 15px; padding: 15px;
+            background: #eff6ff; border-left: 4px solid var(--primary-color);
+            border-radius: 4px; font-size: 0.95rem;
+        }
+    </style>
+</head>
+<body>
+
+<div id="welcome-overlay">
+    <div class="welcome-card">
+        <h2>Chào các bạn đã vô web này 👏</h2>
+        <p>Chào mừng anh em <strong>12A6</strong> đến với lò luyện Tin Học đỉnh cao do <strong>Thắng Lê (DZ)</strong> dày công chuẩn bị!</p>
+        <p>Chúc tập thể 12A6 ôn tập thật chiến, cày nát đề cương để chuẩn bị tinh thần tốt nhất cho kỳ thi THPT sắp tới nhé. Hệ thống sẽ bắt buộc hoàn thành trắc nghiệm mới được nộp, không được lười đâu đấy!</p>
+        <p style="color: var(--danger-color); font-weight: bold;">Thời gian làm bài: 20 Phút</p>
+        <button class="btn-start" onclick="startExam()">BẮT ĐẦU CHIẾN THÔI 🔥</button>
+    </div>
+</div>
+
+<div class="header">
+    <div class="author-info">
+        <span class="author-name"><i class="fa-solid fa-user-ninja"></i> Thắng Lê (DZ)</span>
+        <span class="author-class">For Class 12A6</span>
+    </div>
+    <div class="timer-box" id="timerDisplay">
+        <i class="fa-regular fa-clock"></i> <span id="time">20:00</span>
+    </div>
+</div>
+
+<div class="container" id="examContainer" style="display: none;">
+    <div id="score-board">
+        <h2>KẾT QUẢ BÀI LÀM CỦA BẠN</h2>
+        <div class="score-circle" id="finalScore">0.0</div>
+        <p style="color: var(--text-muted);">Điểm hệ số 10 (Chỉ tính Phần I và II)</p>
+        <p id="scoreMessage" style="margin-top: 10px; font-weight: bold; color: var(--primary-color);"></p>
+    </div>
+
+    <form id="quizForm">
+        <div class="section-header">PHẦN I. CÂU TRẮC NGHIỆM NHIỀU PHƯƠNG ÁN LỰA CHỌN</div>
+        
+        <div class="question-card" id="card-q1">
+            <div class="question-text">Câu 1: Thiết bị nào sau đây KHÔNG phải là thiết bị số?</div>
+            <label class="option-label"><input type="radio" name="q1" value="A"> A. Máy in</label>
+            <label class="option-label"><input type="radio" name="q1" value="B"> B. Bàn phím</label>
+            <label class="option-label"><input type="radio" name="q1" value="C"> C. Ghế xoay văn phòng</label>
+            <label class="option-label"><input type="radio" name="q1" value="D"> D. USB</label>
+            <div class="solution-box" id="sol-q1"><strong>Giải thích:</strong> Đáp án C. Ghế xoay văn phòng là vật dụng nội thất, không có khả năng xử lý, lưu trữ hay truyền tải dữ liệu số.</div>
+        </div>
+
+        <div class="question-card" id="card-q2">
+            <div class="question-text">Câu 2: Cổng kết nối nào dưới đây thường được sử dụng để kết nối màn hình với máy tính?</div>
+            <label class="option-label"><input type="radio" name="q2" value="A"> A. USB</label>
+            <label class="option-label"><input type="radio" name="q2" value="B"> B. HDMI</label>
+            <label class="option-label"><input type="radio" name="q2" value="C"> C. Bluetooth</label>
+            <label class="option-label"><input type="radio" name="q2" value="D"> D. Wi-Fi</label>
+            <div class="solution-box" id="sol-q2"><strong>Giải thích:</strong> Đáp án B. HDMI (High-Definition Multimedia Interface) chuyên dụng truyền tải hình ảnh và âm thanh chất lượng cao.</div>
+        </div>
+
+        <div class="question-card" id="card-q3">
+            <div class="question-text">Câu 3: Khi kết nối điện thoại với loa Bluetooth nhưng không nghe được âm thanh, nguyên nhân nào có thể xảy ra nhất?</div>
+            <label class="option-label"><input type="radio" name="q3" value="A"> A. Điện thoại chưa bật chế độ máy bay</label>
+            <label class="option-label"><input type="radio" name="q3" value="B"> B. Điện thoại chưa mở ứng dụng nghe nhạc</label>
+            <label class="option-label"><input type="radio" name="q3" value="C"> C. Âm lượng của loa hoặc điện thoại đang ở mức quá thấp hoặc tắt</label>
+            <label class="option-label"><input type="radio" name="q3" value="D"> D. Điện thoại không có kết nối mạng Wi-Fi</label>
+            <div class="solution-box" id="sol-q3"><strong>Giải thích:</strong> Đáp án C. Đây là lỗi phổ biến nhất khi đã kết nối thành công nhưng phần cứng lại bị mute (tắt tiếng).</div>
+        </div>
+
+        <div class="question-card" id="card-q4">
+            <div class="question-text">Câu 4: Khi sử dụng Bluetooth để kết nối điện thoại với loa không dây, điều kiện nào sau đây cần được đảm bảo?</div>
+            <label class="option-label"><input type="radio" name="q4" value="A"> A. Điện thoại và loa phải kết nối cùng một mạng Wi-Fi</label>
+            <label class="option-label"><input type="radio" name="q4" value="B"> B. Cả hai thiết bị phải bật Bluetooth và đặt ở chế độ có thể phát hiện</label>
+            <label class="option-label"><input type="radio" name="q4" value="C"> C. Điện thoại phải có cổng HDMI để kết nối với loa</label>
+            <label class="option-label"><input type="radio" name="q4" value="D"> D. Cả hai thiết bị phải được kết nối bằng cáp USB</label>
+            <div class="solution-box" id="sol-q4"><strong>Giải thích:</strong> Đáp án B. Nguyên lý cơ bản của Bluetooth là thiết bị phải được bật và cho phép dò tìm (Discoverable).</div>
+        </div>
+
+        <div class="question-card" id="card-q5">
+            <div class="question-text">Câu 5: Thành phần nào sau đây không phải là một phần của trang web?</div>
+            <label class="option-label"><input type="radio" name="q5" value="A"> A. Hình ảnh</label>
+            <label class="option-label"><input type="radio" name="q5" value="B"> B. Bài viết</label>
+            <label class="option-label"><input type="radio" name="q5" value="C"> C. Bộ nguồn máy tính</label>
+            <label class="option-label"><input type="radio" name="q5" value="D"> D. Liên kết (Hyperlink)</label>
+            <div class="solution-box" id="sol-q5"><strong>Giải thích:</strong> Đáp án C. Bộ nguồn máy tính là thiết bị phần cứng (Hardware).</div>
+        </div>
+
+        <div class="question-card" id="card-q6">
+            <div class="question-text">Câu 6: Một website bao gồm nhiều trang web liên kết với nhau. Mỗi trang web thường được viết bằng ngôn ngữ nào?</div>
+            <label class="option-label"><input type="radio" name="q6" value="A"> A. Python</label>
+            <label class="option-label"><input type="radio" name="q6" value="B"> B. Java</label>
+            <label class="option-label"><input type="radio" name="q6" value="C"> C. HTML</label>
+            <label class="option-label"><input type="radio" name="q6" value="D"> D. C++</label>
+            <div class="solution-box" id="sol-q6"><strong>Giải thích:</strong> Đáp án C. HTML (HyperText Markup Language) là ngôn ngữ xương sống của mọi trang web.</div>
+        </div>
+
+        <div class="question-card" id="card-q7">
+            <div class="question-text">Câu 7: Khi xây dựng một trang web, bước nào sau đây là bước đầu tiên cần thực hiện?</div>
+            <label class="option-label"><input type="radio" name="q7" value="A"> A. Đăng ký tên miền và hosting</label>
+            <label class="option-label"><input type="radio" name="q7" value="B"> B. Thiết kế giao diện và bố cục trang web</label>
+            <label class="option-label"><input type="radio" name="q7" value="C"> C. Xác định mục tiêu và nội dung của trang web</label>
+            <label class="option-label"><input type="radio" name="q7" value="D"> D. Viết mã HTML và CSS để tạo trang web</label>
+            <div class="solution-box" id="sol-q7"><strong>Giải thích:</strong> Đáp án C. Lên kế hoạch, xác định mục tiêu và nội dung luôn là nền tảng trước khi bắt tay vào làm kỹ thuật.</div>
+        </div>
+
+        <div class="question-card" id="card-q8">
+            <div class="question-text">Câu 8: Công cụ nào sau đây có thể được sử dụng để tạo và chỉnh sửa trang web mà không cần viết mã?</div>
+            <label class="option-label"><input type="radio" name="q8" value="A"> A. Google Sites</label>
+            <label class="option-label"><input type="radio" name="q8" value="B"> B. Notepad</label>
+            <label class="option-label"><input type="radio" name="q8" value="C"> C. C++</label>
+            <label class="option-label"><input type="radio" name="q8" value="D"> D. Photoshop</label>
+            <div class="solution-box" id="sol-q8"><strong>Giải thích:</strong> Đáp án A. Google Sites là công cụ kéo thả trực quan (No-code).</div>
+        </div>
+
+        <div class="question-card" id="card-q9">
+            <div class="question-text">Câu 9: Trong Google Sites, phần nào của trang web thường chứa tên website, logo và thanh điều hướng?</div>
+            <label class="option-label"><input type="radio" name="q9" value="A"> A. Phần thân (Body)</label>
+            <label class="option-label"><input type="radio" name="q9" value="B"> B. Phần đầu (Header)</label>
+            <label class="option-label"><input type="radio" name="q9" value="C"> C. Phần chân trang (Footer)</label>
+            <label class="option-label"><input type="radio" name="q9" value="D"> D. Phần nội dung chính</label>
+            <div class="solution-box" id="sol-q9"><strong>Giải thích:</strong> Đáp án B. Header luôn nằm trên cùng chứa logo và menu điều hướng.</div>
+        </div>
+
+        <div class="question-card" id="card-q10">
+            <div class="question-text">Câu 10: Thành phần nào trong biểu mẫu giúp người dùng chọn một trong nhiều lựa chọn?</div>
+            <label class="option-label"><input type="radio" name="q10" value="A"> A. &lt;input type="checkbox"&gt;</label>
+            <label class="option-label"><input type="radio" name="q10" value="B"> B. &lt;input type="text"&gt;</label>
+            <label class="option-label"><input type="radio" name="q10" value="C"> C. &lt;input type="radio"&gt;</label>
+            <label class="option-label"><input type="radio" name="q10" value="D"> D. &lt;textarea&gt;</label>
+            <div class="solution-box" id="sol-q10"><strong>Giải thích:</strong> Đáp án C. Nút Radio chỉ cho phép chọn 1. Checkbox cho phép chọn nhiều.</div>
+        </div>
+
+        <div class="question-card" id="card-q11">
+            <div class="question-text">Câu 11: Khi người dùng nhấn nút "Gửi" (Submit), dữ liệu sẽ được gửi đi đâu?</div>
+            <label class="option-label"><input type="radio" name="q11" value="A"> A. Lưu vào bộ nhớ trình duyệt</label>
+            <label class="option-label"><input type="radio" name="q11" value="B"> B. Hiển thị trên trang web nhưng không gửi đi đâu</label>
+            <label class="option-label"><input type="radio" name="q11" value="C"> C. Gửi đến máy chủ để xử lý</label>
+            <label class="option-label"><input type="radio" name="q11" value="D"> D. Lưu vào tệp trên máy tính người dùng</label>
+            <div class="solution-box" id="sol-q11"><strong>Giải thích:</strong> Đáp án C. Nút Submit sẽ đẩy dữ liệu form lên Server (máy chủ) để xử lý.</div>
+        </div>
+
+        <div class="question-card" id="card-q12">
+            <div class="question-text">Câu 12: Để tạo một biểu mẫu mới bằng Google Forms, bạn cần thực hiện thao tác nào đầu tiên?</div>
+            <label class="option-label"><input type="radio" name="q12" value="A"> A. Truy cập Google Drive và chọn Google Biểu mẫu</label>
+            <label class="option-label"><input type="radio" name="q12" value="B"> B. Truy cập Google Sheets và tạo một trang tính mới</label>
+            <label class="option-label"><input type="radio" name="q12" value="C"> C. Tạo một tệp văn bản trong Google Docs</label>
+            <label class="option-label"><input type="radio" name="q12" value="D"> D. Mở trình duyệt và nhập địa chỉ www.google.com</label>
+            <div class="solution-box" id="sol-q12"><strong>Giải thích:</strong> Đáp án A. Google Forms được quản lý thông qua Google Drive.</div>
+        </div>
+
+        <div class="section-header">PHẦN II. CÂU TRẮC NGHIỆM ĐÚNG SAI</div>
+        
+        <div class="question-card" id="card-p2q1">
+            <div class="question-text">Câu 1: Khi thiết kế một trang web, việc hiểu rõ cấu trúc và cách tổ chức nội dung là vô cùng quan trọng. Một trang web không chỉ bao gồm phần giao diện hiển thị mà còn có các thành phần như phần đầu (header), nội dung chính (body) và chân trang (footer). Mỗi trang web có thể được xây dựng theo những mô hình khác nhau để phù hợp với nhu cầu sử dụng. Vậy trang web thường được tổ chức như thế nào?</div>
+            
+            <div class="tf-item" id="item-p2q1a">
+                <p>a. Mọi trang web đều có cùng một cấu trúc cố định.</p>
+                <div class="tf-controls">
+                    <label><input type="radio" name="p2q1a" value="T"> Đúng</label>
+                    <label><input type="radio" name="p2q1a" value="F"> Sai</label>
+                </div>
+            </div>
+            <div class="tf-item" id="item-p2q1b">
+                <p>b. Một trang web thường bao gồm phần đầu (header), nội dung chính (body) và chân trang (footer).</p>
+                <div class="tf-controls">
+                    <label><input type="radio" name="p2q1b" value="T"> Đúng</label>
+                    <label><input type="radio" name="p2q1b" value="F"> Sai</label>
+                </div>
+            </div>
+            <div class="tf-item" id="item-p2q1c">
+                <p>c. Một trang web có thể có nhiều trang con được liên kết với nhau để tổ chức nội dung hợp lý.</p>
+                <div class="tf-controls">
+                    <label><input type="radio" name="p2q1c" value="T"> Đúng</label>
+                    <label><input type="radio" name="p2q1c" value="F"> Sai</label>
+                </div>
+            </div>
+            <div class="tf-item" id="item-p2q1d">
+                <p>d. Một trang web chỉ có một trang duy nhất và không thể có thêm trang con.</p>
+                <div class="tf-controls">
+                    <label><input type="radio" name="p2q1d" value="T"> Đúng</label>
+                    <label><input type="radio" name="p2q1d" value="F"> Sai</label>
+                </div>
+            </div>
+            <div class="solution-box" id="sol-p2q1">
+                <strong>Đáp án:</strong> a - Sai, b - Đúng, c - Đúng, d - Sai.<br>
+                <em>Giải thích: Cấu trúc web rất đa dạng tùy mục đích, không hề cố định. Website có thể có 1 trang (Landing page) hoặc vô số trang con.</em>
+            </div>
+        </div>
+
+        <div class="question-card" id="card-p2q2">
+            <div class="question-text">Câu 2: Phần thân trang web là nơi chứa nội dung chính, giúp truyền tải thông tin đến người dùng một cách rõ ràng và trực quan. Trong Google Sites, người dùng có thể chèn văn bản, hình ảnh, video và nhiều đối tượng khác vào phần thân trang web. Việc tổ chức hợp lý các khối nội dung sẽ giúp trang web trở nên dễ đọc và thu hút hơn.</div>
+            
+            <div class="tf-item" id="item-p2q2a">
+                <p>a. Phần thân trang web thường chứa nội dung chính như văn bản, hình ảnh và video.</p>
+                <div class="tf-controls">
+                    <label><input type="radio" name="p2q2a" value="T"> Đúng</label>
+                    <label><input type="radio" name="p2q2a" value="F"> Sai</label>
+                </div>
+            </div>
+            <div class="tf-item" id="item-p2q2b">
+                <p>b. Phần thân trang web chỉ có thể chứa văn bản, không thể thêm hình ảnh hay video.</p>
+                <div class="tf-controls">
+                    <label><input type="radio" name="p2q2b" value="T"> Đúng</label>
+                    <label><input type="radio" name="p2q2b" value="F"> Sai</label>
+                </div>
+            </div>
+            <div class="tf-item" id="item-p2q2c">
+                <p>c. Việc tổ chức hợp lý các khối nội dung trong phần thân giúp trang web dễ đọc và thu hút hơn.</p>
+                <div class="tf-controls">
+                    <label><input type="radio" name="p2q2c" value="T"> Đúng</label>
+                    <label><input type="radio" name="p2q2c" value="F"> Sai</label>
+                </div>
+            </div>
+            <div class="tf-item" id="item-p2q2d">
+                <p>d. Không cần quan tâm đến cách bố trí nội dung trong phần thân, miễn là có đầy đủ thông tin.</p>
+                <div class="tf-controls">
+                    <label><input type="radio" name="p2q2d" value="T"> Đúng</label>
+                    <label><input type="radio" name="p2q2d" value="F"> Sai</label>
+                </div>
+            </div>
+            <div class="solution-box" id="sol-p2q2">
+                <strong>Đáp án:</strong> a - Đúng, b - Sai, c - Đúng, d - Sai.<br>
+                <em>Giải thích: Body chứa đa phương tiện. Bố cục (Layout/UX) cực kỳ quan trọng để giữ chân người dùng.</em>
+            </div>
+        </div>
+
+        <div class="section-header">PHẦN III. TỰ LUẬN (Phần này tự ôn, không tính vào điểm máy chấm)</div>
+
+        <div class="question-card">
+            <div class="question-text">Câu 1: (1 điểm) Hãy phân tích các yếu tố quan trọng cần có trong phần đầu của một trang web.</div>
+            <textarea placeholder="Nhập câu trả lời của bạn vào đây..."></textarea>
+            <div class="solution-box" id="sol-tl1">
+                <strong>Gợi ý đáp án:</strong><br>
+                - Logo và tên thương hiệu: Giúp nhận diện, thường gắn link về Trang chủ.<br>
+                - Thanh điều hướng (Menu): Liên kết đến các chuyên mục chính.<br>
+                - Thanh tìm kiếm: Công cụ tìm kiếm nhanh.<br>
+                - Nút Gọi hành động (CTA) / Thông tin khác: Đăng nhập, Giỏ hàng, Hotline.
+            </div>
+        </div>
+
+        <div class="question-card">
+            <div class="question-text">Câu 2: (1 điểm) Hãy trình bày các bước để thiết lập một khối nội dung trong phần thân trang web trên Google Sites.</div>
+            <textarea placeholder="Nhập câu trả lời của bạn vào đây..."></textarea>
+            <div class="solution-box" id="sol-tl2">
+                <strong>Gợi ý đáp án:</strong><br>
+                - Bước 1: Mở Google Sites.<br>
+                - Bước 2: Chọn tab Chèn (Insert) ở bảng bên phải.<br>
+                - Bước 3: Tìm Khối nội dung (Content Blocks) và chọn bố cục mong muốn.<br>
+                - Bước 4: Nhấp (+) để tải ảnh/video, nhấp text để nhập văn bản.<br>
+                - Bước 5: Kéo thả, chỉnh màu nền để hoàn thiện.
+            </div>
+        </div>
+
+        <div class="question-card">
+            <div class="question-text">Câu 3: (1 điểm) Hãy giải thích ứng dụng của liên kết trong một trang web.</div>
+            <textarea placeholder="Nhập câu trả lời của bạn vào đây..."></textarea>
+            <div class="solution-box" id="sol-tl3">
+                <strong>Gợi ý đáp án:</strong><br>
+                - Điều hướng: Link nội bộ (chuyển trang trong web) và link ngoài.<br>
+                - Tải tài liệu: Click để tải file (PDF, DOCX...).<br>
+                - Tương tác: mailto: để mở gửi mail, tel: để gọi điện thoại.<br>
+                - Anchor link: Cuộn nhanh đến một phần nội dung trên cùng một trang dài.
+            </div>
+        </div>
+
+        <button type="button" class="btn-submit" id="submitBtn" onclick="manualSubmit()">NỘP BÀI CHẤM ĐIỂM NGAY</button>
+    </form>
+</div>
+
+<script>
+    let timeLeft = 20 * 60; // 20 phút
+    let timerInterval;
+    const ansP1 = { q1:"C", q2:"B", q3:"C", q4:"B", q5:"C", q6:"C", q7:"C", q8:"A", q9:"B", q10:"C", q11:"C", q12:"A" };
+    const ansP2 = { p2q1a:"F", p2q1b:"T", p2q1c:"T", p2q1d:"F", p2q2a:"T", p2q2b:"F", p2q2c:"T", p2q2d:"F" };
+    
+    function startExam() {
+        document.getElementById('welcome-overlay').style.display = 'none';
+        document.getElementById('examContainer').style.display = 'block';
+        timerInterval = setInterval(updateTimer, 1000);
+    }
+
+    function updateTimer() {
+        if(timeLeft <= 0) {
+            clearInterval(timerInterval);
+            document.getElementById('time').innerText = "00:00";
+            alert("⏰ Hết giờ làm bài! Hệ thống tự động thu bài của bạn.");
+            processGrading(true);
+            return;
+        }
+        
+        let m = Math.floor(timeLeft / 60);
+        let s = timeLeft % 60;
+        document.getElementById('time').innerText = `${m < 10 ? '0'+m : m}:${s < 10 ? '0'+s : s}`;
+        
+        if(timeLeft <= 60) {
+            document.getElementById('timerDisplay').classList.add('timer-warning');
+        }
+        timeLeft--;
+    }
+
+    function checkCompleteness() {
+        // Kiểm tra phần 1
+        for(let i=1; i<=12; i++) {
+            if(!document.querySelector(`input[name="q${i}"]:checked`)) return false;
+        }
+        // Kiểm tra phần 2
+        for(let key in ansP2) {
+            if(!document.querySelector(`input[name="${key}"]:checked`)) return false;
+        }
+        return true;
+    }
+
+    function manualSubmit() {
+        if(!checkCompleteness()) {
+            alert("⚠️ Khoan đã anh bạn 12A6! Bạn phải đánh lụi... à nhầm, làm đầy đủ tất cả các câu trắc nghiệm (Phần I và Phần II) mới được nộp bài sớm nhé. Tự luận có thể để trống.");
+            return;
+        }
+        if(confirm("Bạn đã chắc chắn muốn nộp bài chưa? Nộp xong không sửa được đâu nhé!")) {
+            processGrading(false);
+        }
+    }
+
+    function processGrading(isAuto) {
+        clearInterval(timerInterval);
+        document.getElementById('submitBtn').disabled = true;
+        document.getElementById('submitBtn').innerText = "ĐÃ NỘP BÀI - XEM KẾT QUẢ PHÍA TRÊN";
+        
+        // Disable form
+        document.querySelectorAll('input, textarea').forEach(el => el.disabled = true);
+        
+        // Show solutions
+        document.querySelectorAll('.solution-box').forEach(el => el.style.display = 'block');
+
+        let totalQuestions = 20; // 12 câu P1 + 8 ý P2
+        let correctCount = 0;
+
+        // Chấm Phần 1
+        for(let q in ansP1) {
+            let correctAns = ansP1[q];
+            let selected = document.querySelector(`input[name="${q}"]:checked`);
+            
+            // Highlight đáp án đúng chung
+            let correctLabel = document.querySelector(`input[name="${q}"][value="${correctAns}"]`).parentElement;
+            correctLabel.classList.add('correct-answer-highlight');
+            
+            let card = document.getElementById(`card-${q}`);
+            let badge = document.createElement('span');
+            badge.className = 'feedback-badge ';
+
+            if(selected && selected.value === correctAns) {
+                correctCount++;
+                badge.classList.add('badge-correct');
+                badge.innerText = '✔️ BẠN ĐÚNG';
+            } else {
+                badge.classList.add('badge-wrong');
+                badge.innerText = '❌ BẠN SAI';
+                if(selected) {
+                    selected.parentElement.classList.add('wrong-answer-highlight');
+                }
+            }
+            card.insertBefore(badge, document.getElementById(`sol-${q}`));
+        }
+
+        // Chấm Phần 2
+        for(let q in ansP2) {
+            let correctAns = ansP2[q];
+            let selected = document.querySelector(`input[name="${q}"]:checked`);
+            
+            let itemDiv = document.getElementById(`item-${q}`);
+            let correctLabel = document.querySelector(`input[name="${q}"][value="${correctAns}"]`).parentElement;
+            correctLabel.classList.add('correct-answer-highlight');
+            
+            let badge = document.createElement('span');
+            badge.className = 'feedback-badge ';
+            badge.style.display = 'block'; badge.style.width = 'fit-content';
+            
+            if(selected && selected.value === correctAns) {
+                correctCount++;
+                badge.classList.add('badge-correct');
+                badge.innerText = '✔️ ĐÚNG';
+            } else {
+                badge.classList.add('badge-wrong');
+                badge.innerText = '❌ SAI';
+                if(selected) {
+                    selected.parentElement.classList.add('wrong-answer-highlight');
+                }
+            }
+            itemDiv.appendChild(badge);
+        }
+
+        // Tính điểm hệ 10: Tổng 20 ý/câu, mỗi ý 0.5 điểm
+        let finalScore = (correctCount * 0.5).toFixed(1);
+        document.getElementById('finalScore').innerText = finalScore;
+        
+        let msg = "";
+        if(finalScore == 10) msg = "Quá đỉnh! Thắng Lê (DZ) tự hào về bạn. Chuẩn bị thủ khoa 2026 thôi!";
+        else if(finalScore >= 8) msg = "Giỏi lắm 12A6! Cố gắng tý nữa là max ping.";
+        else if(finalScore >= 5) msg = "Đạt yêu cầu, nhưng vẫn phải cày thêm đề cương nhé!";
+        else msg = "Toang rồi ông giáo ạ! Xem kỹ lại lời giải sai ở đâu và ôn lại ngay!";
+        
+        document.getElementById('scoreMessage').innerText = msg;
+        
+        let board = document.getElementById('score-board');
+        board.style.display = 'block';
+        board.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+</script>
+
+</body>
+</html>
