@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phiếu Điểm - Đề Thi THPT Quốc Gia Lịch Sử 2026</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --gradient-start: #312e81;
+            --gradient-end: #7c3aed;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --bg-main: #f0f4ff;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-gray: #64748b;
+            --border: #e2e8f0;
+            --shadow: 0 20px 40px -10px rgba(0,0,0,0.08);
+            --shadow-lg: 0 30px 60px -12px rgba(0,0,0,0.12);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', 'Plus Jakarta Sans', sans-serif;
+            background: linear-gradient(135deg, #f0f4ff 0%, #e8ecf8 50%, #f5f3ff 100%);
+            min-height: 100vh;
+            color: var(--text-main);
+        }
+
+        .scorecard-container {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 30px 20px 60px;
+        }
+
+        /* Header */
+        .scorecard-header {
+            background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
+            color: white;
+            text-align: center;
+            padding: 40px 30px;
+            border-radius: 24px 24px 0 0;
+            position: relative;
+            overflow: hidden;
+        }
+        .scorecard-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 60%);
+            animation: float 6s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(30px, -30px); }
+        }
+        .header-content { position: relative; z-index: 1; }
+        .header-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+        .header-title {
+            font-size: 1.8rem;
+            font-weight: 900;
+            margin-bottom: 5px;
+            letter-spacing: -0.5px;
+        }
+        .header-subtitle {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            font-weight: 400;
+        }
+
+        /* Score Circle */
+        .score-circle-container {
+            display: flex;
+            justify-content: center;
+            margin-top: -50px;
+            position: relative;
+            z-index: 2;
+        }
+        .score-circle {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            background: white;
+            box-shadow: var(--shadow-lg);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: 6px solid #f0f4ff;
+        }
+        .score-number {
+            font-size: 3.5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1;
+        }
+        .score-unit {
+            font-size: 0.9rem;
+            color: var(--text-gray);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Grade Badge */
+        .grade-container {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .grade-badge {
+            display: inline-block;
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-weight: 800;
+            font-size: 1.1rem;
+            letter-spacing: 0.5px;
+        }
+        .grade-gioi { background: #ecfdf5; color: #065f46; border: 2px solid #6ee7b7; }
+        .grade-kha { background: #eff6ff; color: #1e40af; border: 2px solid #93c5fd; }
+        .grade-tb { background: #fffbeb; color: #92400e; border: 2px solid #fcd34d; }
+        .grade-yeu { background: #fef2f2; color: #991b1b; border: 2px solid #fca5a5; }
+
+        /* Card */
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            margin: 20px 0;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+        }
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #0f172a;
+        }
+        .card-title i {
+            background: #eef2ff;
+            padding: 10px;
+            border-radius: 12px;
+            color: var(--primary);
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .stat-item {
+            background: #f8fafc;
+            padding: 18px;
+            border-radius: 14px;
+            text-align: center;
+            border: 1px solid var(--border);
+        }
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: var(--primary);
+        }
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--text-gray);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 4px;
+        }
+        .stat-value.success { color: var(--success); }
+        .stat-value.danger { color: var(--danger); }
+
+        /* Progress bar */
+        .progress-bar-container {
+            background: #e2e8f0;
+            height: 12px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 15px 0;
+        }
+        .progress-bar-fill {
+            height: 100%;
+            border-radius: 10px;
+            transition: width 1s ease;
+        }
+        .progress-bar-fill.success { background: linear-gradient(90deg, #10b981, #34d399); }
+        .progress-bar-fill.primary { background: linear-gradient(90deg, var(--gradient-start), var(--gradient-end)); }
+
+        /* Part 2 Details */
+        .p2-detail-item {
+            background: #f8fafc;
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 10px;
+            border: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .p2-detail-left {
+            font-weight: 600;
+        }
+        .p2-detail-right {
+            font-weight: 800;
+            color: var(--primary);
+        }
+        .sub-detail {
+            font-size: 0.85rem;
+            color: var(--text-gray);
+            margin-top: 4px;
+        }
+        .sub-detail i { margin-right: 4px; }
+        .sub-detail .correct { color: var(--success); }
+        .sub-detail .wrong { color: var(--danger); }
+
+        /* Time info */
+        .time-info {
+            text-align: center;
+            color: var(--text-gray);
+            font-size: 0.85rem;
+            margin: 20px 0;
+        }
+
+        /* Buttons */
+        .btn-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 25px;
+        }
+        .btn {
+            flex: 1;
+            padding: 16px;
+            border-radius: 14px;
+            font-weight: 700;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            font-size: 1rem;
+            border: none;
+            display: inline-block;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            color: white;
+            box-shadow: 0 8px 25px rgba(79, 70, 229, 0.3);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 35px rgba(79, 70, 229, 0.4);
+        }
+        .btn-outline {
+            background: white;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+        .btn-outline:hover {
+            background: #eef2ff;
+        }
+
+        /* No data */
+        .no-data {
+            text-align: center;
+            padding: 60px 30px;
+        }
+        .no-data i {
+            font-size: 4rem;
+            color: #cbd5e1;
+            margin-bottom: 20px;
+        }
+        .no-data h2 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: var(--text-gray);
+        }
+        .no-data p {
+            color: var(--text-gray);
+            margin-bottom: 20px;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .scorecard-container { padding: 20px 10px 40px; }
+            .card { padding: 20px 15px; }
+            .score-circle { width: 130px; height: 130px; }
+            .score-number { font-size: 2.8rem; }
+            .header-title { font-size: 1.4rem; }
+            .stats-grid { grid-template-columns: 1fr; }
+            .btn-group { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <div class="scorecard-container" id="scorecardContent">
+        <!-- Sẽ được JavaScript render -->
+    </div>
+
+    <script>
+        function getGrade(score) {
+            if (score >= 8.5) return { text: 'GIỎI', class: 'grade-gioi', icon: 'fa-star' };
+            if (score >= 6.5) return { text: 'KHÁ', class: 'grade-kha', icon: 'fa-thumbs-up' };
+            if (score >= 5.0) return { text: 'TRUNG BÌNH', class: 'grade-tb', icon: 'fa-meh' };
+            return { text: 'YẾU', class: 'grade-yeu', icon: 'fa-frown' };
+        }
+
+        function getGaugeColor(score) {
+            if (score >= 8) return 'success';
+            if (score >= 5) return 'primary';
+            return 'danger';
+        }
+
+        function renderScorecard() {
+            const container = document.getElementById('scorecardContent');
+            const dataStr = localStorage.getItem('thiLichSu2026_result');
+
+            if (!dataStr) {
+                container.innerHTML = `
+                    <div class="card no-data">
+                        <i class="fas fa-clipboard-list"></i>
+                        <h2>Chưa có dữ liệu điểm</h2>
+                        <p>Bạn cần hoàn thành bài thi ở trang đề thi trước khi xem phiếu điểm.</p>
+                        <a href="index.html" class="btn btn-primary" style="display: inline-block;">
+                            <i class="fas fa-arrow-left" style="margin-right: 8px;"></i> Quay lại làm bài
+                        </a>
+                    </div>
+                `;
+                return;
+            }
+
+            const data = JSON.parse(dataStr);
+            const grade = getGrade(data.finalScore);
+            const gaugeColor = getGaugeColor(data.finalScore);
+            const scorePercent = (data.finalScore / 10) * 100;
+            
+            // Tính thời gian làm bài
+            const totalTime = 45 * 60;
+            const usedTime = totalTime - (data.timeRemaining || 0);
+            const usedMinutes = Math.floor(usedTime / 60);
+            const usedSeconds = usedTime % 60;
+
+            // Render
+            container.innerHTML = `
+                <div class="scorecard-header">
+                    <div class="header-content">
+                        <div class="header-badge"><i class="fas fa-award" style="margin-right: 6px;"></i> KẾT QUẢ CHÍNH THỨC</div>
+                        <h1 class="header-title">Đề Thi THPT Quốc Gia 2026</h1>
+                        <p class="header-subtitle">Môn: Lịch Sử · Mã đề: 001 · Form 2026</p>
+                    </div>
+                </div>
+
+                <div class="score-circle-container">
+                    <div class="score-circle">
+                        <span class="score-number">${data.finalScore.toFixed(2)}</span>
+                        <span class="score-unit">/10 điểm</span>
+                    </div>
+                </div>
+
+                <div class="grade-container">
+                    <span class="grade-badge ${grade.class}">
+                        <i class="fas ${grade.icon}" style="margin-right: 6px;"></i> XẾP LOẠI: ${grade.text}
+                    </span>
+                </div>
+
+                <div class="time-info">
+                    <i class="far fa-clock" style="margin-right: 4px;"></i>
+                    Nộp bài lúc: ${data.submitTime || 'Không xác định'} 
+                    · Thời gian làm: ${usedMinutes}p${usedSeconds}s
+                </div>
+
+                <!-- Tổng quan -->
+                <div class="card">
+                    <div class="card-title"><i class="fas fa-chart-pie"></i> Tổng quan bài làm</div>
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <div class="stat-value">${data.finalScore.toFixed(2)}</div>
+                            <div class="stat-label">Điểm hệ 10</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">${data.totalRaw.toFixed(2)}</div>
+                            <div class="stat-label">Điểm gốc / ${data.maxRaw.toFixed(2)}</div>
+                        </div>
+                    </div>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar-fill ${gaugeColor}" style="width: ${scorePercent}%;"></div>
+                    </div>
+                    <p style="text-align: center; color: var(--text-gray); font-size: 0.9rem; margin-top: 8px;">
+                        Bạn đạt <b>${scorePercent.toFixed(1)}%</b> trên tổng điểm tối đa
+                    </p>
+                </div>
+
+                <!-- Chi tiết Phần I -->
+                <div class="card">
+                    <div class="card-title"><i class="fas fa-check-circle"></i> Phần I: Trắc nghiệm nhiều lựa chọn</div>
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <div class="stat-value success">${data.correctCountP1}</div>
+                            <div class="stat-label">Câu đúng</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value danger">${data.wrongCountP1}</div>
+                            <div class="stat-label">Câu sai</div>
+                        </div>
+                    </div>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar-fill success" style="width: ${(data.correctCountP1 / data.totalP1 * 100)}%;"></div>
+                    </div>
+                    <p style="text-align: center; color: var(--text-gray); font-size: 0.9rem; margin-top: 8px;">
+                        Đạt <b>${data.rawScoreP1.toFixed(2)}</b> / ${data.maxP1.toFixed(2)} điểm gốc 
+                        (${data.correctCountP1}/${data.totalP1} câu đúng)
+                    </p>
+                </div>
+
+                <!-- Chi tiết Phần II -->
+                <div class="card">
+                    <div class="card-title"><i class="fas fa-balance-scale"></i> Phần II: Trắc nghiệm Đúng/Sai</div>
+                    ${data.p2Breakdown.map(item => `
+                        <div class="p2-detail-item">
+                            <div>
+                                <div class="p2-detail-left">Câu ${item.id}</div>
+                                <div class="sub-detail">
+                                    ${item.details.map(d => 
+                                        `<span class="${d.correct ? 'correct' : 'wrong'}"><i class="fas ${d.correct ? 'fa-check' : 'fa-times'}"></i>${d.id}) ${d.correct ? 'Đúng' : 'Sai'}</span>`
+                                    ).join(' &nbsp;|&nbsp; ')}
+                                </div>
+                            </div>
+                            <div class="p2-detail-right">+${item.earned.toFixed(2)}đ</div>
+                        </div>
+                    `).join('')}
+                    <div style="text-align: center; margin-top: 15px; font-weight: 700; color: var(--primary); font-size: 1.1rem;">
+                        Tổng Phần II: ${data.rawScoreP2.toFixed(2)} / ${data.maxP2.toFixed(2)} điểm gốc
+                    </div>
+                </div>
+
+                <!-- Tổng kết cuối -->
+                <div class="card" style="background: linear-gradient(135deg, #f8fafc, #eef2ff);">
+                    <div class="card-title"><i class="fas fa-trophy"></i> Tổng kết</div>
+                    <div style="text-align: center;">
+                        <p style="font-size: 1.1rem; margin-bottom: 10px;">
+                            <b>Tổng điểm gốc:</b> ${data.totalRaw.toFixed(2)} / ${data.maxRaw.toFixed(2)}
+                        </p>
+                        <p style="font-size: 1.5rem; font-weight: 900; background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+                            ĐIỂM HỆ 10: ${data.finalScore.toFixed(2)}
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Nút điều hướng -->
+                <div class="btn-group">
+                    <a href="index.html" class="btn btn-outline">
+                        <i class="fas fa-redo" style="margin-right: 6px;"></i> Làm lại bài
+                    </a>
+                    <button class="btn btn-primary" onclick="window.print()">
+                        <i class="fas fa-print" style="margin-right: 6px;"></i> In phiếu điểm
+                    </button>
+                </div>
+
+                <p style="text-align: center; margin-top: 20px; color: var(--text-gray); font-size: 0.8rem;">
+                    <i class="fas fa-shield-alt" style="margin-right: 4px;"></i>
+                    Chấm theo thang điểm chuẩn Bộ GD&amp;ĐT - Kỳ thi THPT Quốc gia 2026
+                </p>
+            `;
+        }
+
+        window.onload = renderScorecard;
+    </script>
+</body>
+</html>
