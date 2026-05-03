@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đề Thi THPT Quốc Gia Lịch Sử - Form 2026</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-hover: #4338ca;
+            --bg-main: #f0f4ff;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-gray: #64748b;
+            --success: #10b981;
+            --success-bg: #ecfdf5;
+            --danger: #ef4444;
+            --danger-bg: #fef2f2;
+            --border: #e2e8f0;
+            --theory-bg: #f0f9ff;
+            --theory-border: #7dd3fc;
+            --gradient-start: #4f46e5;
+            --gradient-end: #7c3aed;
+            --warning: #f59e0b;
+            --warning-bg: #fffbeb;
+            --shadow: 0 10px 25px -5px rgba(0,0,0,0.05), 0 8px 10px -6px rgba(0,0,0,0.02);
+            --shadow-hover: 0 25px 35px -8px rgba(0,0,0,0.1), 0 10px 15px -6px rgba(0,0,0,0.05);
+            --shadow-lg: 0 30px 50px -12px rgba(0,0,0,0.15);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', 'Plus Jakarta Sans', sans-serif;
+            background: linear-gradient(135deg, #f0f4ff 0%, #e8ecf8 50%, #f5f3ff 100%);
+            color: var(--text-main);
+            line-height: 1.7;
+            min-height: 100vh;
+            background-attachment: fixed;
+        }
+
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, #312e81 0%, #4f46e5 40%, #7c3aed 100%);
+            padding: 16px 32px;
+            box-shadow: 0 10px 30px rgba(79, 70, 229, 0.35);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            backdrop-filter: blur(10px);
+        }
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+        .header-icon {
+            background: rgba(255,255,255,0.15);
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        .header-title {
+            font-weight: 800;
+            font-size: 1.15rem;
+            letter-spacing: -0.3px;
+            line-height: 1.3;
+        }
+        .header-subtitle {
+            font-size: 0.7rem;
+            opacity: 0.75;
+            font-weight: 500;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .question-count {
+            font-size: 0.85rem;
+            font-weight: 600;
+            background: rgba(255,255,255,0.15);
+            padding: 8px 16px;
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.2);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .timer {
+            font-size: 1.15rem;
+            font-weight: 700;
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            padding: 10px 22px;
+            border-radius: 30px;
+            border: 1px solid rgba(255,255,255,0.3);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+        .timer.warning {
+            background: rgba(239, 68, 68, 0.6);
+            border-color: rgba(239, 68, 68, 0.8);
+            animation: pulse 0.8s infinite;
+            box-shadow: 0 0 25px rgba(239, 68, 68, 0.4);
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.03); }
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            width: 100%;
+            height: 5px;
+            background: rgba(0,0,0,0.06);
+            position: sticky;
+            top: 81px;
+            z-index: 999;
+        }
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #fbbf24, #f59e0b, #fbbf24);
+            width: 0%;
+            transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 0 25px rgba(251, 191, 36, 0.7);
+            border-radius: 0 4px 4px 0;
+            position: relative;
+        }
+        .progress-bar::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 14px;
+            height: 14px;
+            background: #fbbf24;
+            border-radius: 50%;
+            box-shadow: 0 0 15px rgba(251, 191, 36, 0.8);
+        }
+
+        /* Container */
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 35px 25px 60px;
+        }
+
+        /* Result Box - Hidden during test */
+        .result-preview {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 30px 25px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            margin-bottom: 35px;
+            display: none;
+            border: 2px solid var(--primary);
+            animation: slideDown 0.5s ease;
+        }
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .result-preview .preview-score {
+            font-size: 4rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1;
+        }
+
+        /* Section Titles */
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #1e293b;
+            margin: 45px 0 5px;
+            padding-bottom: 14px;
+            border-bottom: 3px solid var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .section-title i {
+            color: var(--primary);
+            font-size: 1.4rem;
+            background: #eef2ff;
+            padding: 10px;
+            border-radius: 12px;
+        }
+        .section-subtitle {
+            color: var(--text-gray);
+            margin-bottom: 30px;
+            font-size: 0.9rem;
+            background: #fff;
+            padding: 12px 18px;
+            border-radius: 10px;
+            border-left: 4px solid var(--primary);
+            display: inline-block;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+        }
+
+        /* Question Card */
+        .question-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 28px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        .question-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, var(--gradient-start), var(--gradient-end));
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            border-radius: 0 2px 2px 0;
+        }
+        .question-card:hover {
+            border-color: #cbd5e1;
+            box-shadow: var(--shadow-hover);
+            transform: translateY(-3px);
+        }
+        .question-card:hover::before { opacity: 1; }
+
+        .q-number {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            color: white;
+            font-weight: 800;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin-bottom: 15px;
+            letter-spacing: 0.5px;
+        }
+        .q-text {
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-bottom: 22px;
+            color: #0f172a;
+            line-height: 1.6;
+        }
+
+        .passage {
+            background: #f8fafc;
+            padding: 20px 24px;
+            border-left: 5px solid var(--primary);
+            border-radius: 0 12px 12px 0;
+            font-style: italic;
+            margin-bottom: 22px;
+            color: #334155;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+            line-height: 1.7;
+        }
+
+        /* Options */
+        .options-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 13px;
+        }
+        .option-label {
+            display: flex;
+            align-items: center;
+            padding: 16px 20px;
+            border: 2px solid var(--border);
+            border-radius: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            background: #fcfcfd;
+            position: relative;
+        }
+        .option-label:hover {
+            background: #f0f4ff;
+            border-color: var(--primary);
+            transform: translateX(6px);
+            box-shadow: 0 6px 18px rgba(79,70,229,0.12);
+        }
+        .option-label input[type="radio"] {
+            width: 20px;
+            height: 20px;
+            margin-right: 14px;
+            accent-color: var(--primary);
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+        .option-label span { flex: 1; }
+
+        /* TF Table */
+        .tf-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            border-radius: 14px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+        }
+        .tf-table th, .tf-table td {
+            padding: 15px;
+            border-bottom: 1px solid var(--border);
+            text-align: left;
+            background: white;
+        }
+        .tf-table th {
+            background: #f8fafc;
+            font-weight: 700;
+            color: #0f172a;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 0.5px;
+        }
+        .tf-table td.center {
+            text-align: center;
+            width: 80px;
+        }
+        .tf-table tr:last-child td { border-bottom: none; }
+        .tf-table tr:hover td { background: #fafbfc; }
+        .tf-option {
+            cursor: pointer;
+            padding: 6px 12px;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+        }
+        .tf-option:hover { background: #f0f4ff; }
+
+        /* Explanation Box */
+        .exp-box {
+            margin-top: 22px;
+            padding: 22px;
+            border-radius: 16px;
+            display: none;
+            font-size: 0.93rem;
+            line-height: 1.75;
+            border: 2px solid transparent;
+        }
+        .exp-box.show {
+            display: block;
+            animation: fadeInUp 0.5s ease;
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .exp-header {
+            font-weight: 800;
+            font-size: 1.15rem;
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .exp-correct-state {
+            background: var(--success-bg);
+            border-color: #a7f3d0;
+            color: #065f46;
+        }
+        .exp-wrong-state {
+            background: var(--danger-bg);
+            border-color: #fecaca;
+            color: #991b1b;
+        }
+        
+        .exp-section {
+            margin-bottom: 14px;
+            padding: 12px 16px;
+            background: rgba(255,255,255,0.7);
+            border-radius: 10px;
+            border: 1px solid rgba(0,0,0,0.04);
+        }
+        .exp-section strong {
+            display: block;
+            margin-bottom: 6px;
+            color: #0f172a;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .theory-block {
+            background: var(--theory-bg);
+            border-left: 5px solid var(--theory-border);
+            padding: 15px 20px;
+            border-radius: 0 12px 12px 0;
+            margin-top: 18px;
+            color: #0369a1;
+            font-weight: 500;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.03);
+        }
+
+        /* Labels for correct/wrong */
+        .label-correct {
+            background-color: var(--success-bg) !important;
+            border-color: #10b981 !important;
+            color: #065f46;
+            font-weight: 700;
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
+        }
+        .label-wrong {
+            background-color: var(--danger-bg) !important;
+            border-color: #ef4444 !important;
+            color: #991b1b;
+            text-decoration: line-through;
+        }
+        .disabled-layer { pointer-events: none; opacity: 0.92; }
+
+        /* Submit Button */
+        .btn-submit {
+            display: block;
+            width: 100%;
+            padding: 20px;
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: white;
+            background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
+            border: none;
+            border-radius: 16px;
+            cursor: pointer;
+            margin: 45px 0;
+            transition: all 0.4s ease;
+            box-shadow: 0 12px 35px rgba(79, 70, 229, 0.35);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-submit::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.15), transparent);
+            transform: rotate(45deg);
+            transition: all 0.6s ease;
+        }
+        .btn-submit:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 45px rgba(79, 70, 229, 0.5);
+        }
+        .btn-submit:hover::after {
+            left: 100%;
+        }
+        .btn-submit:disabled {
+            background: #94a3b8;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        .btn-submit:disabled::after { display: none; }
+        
+        .error-msg {
+            color: var(--danger);
+            text-align: center;
+            font-weight: 700;
+            margin-top: -15px;
+            margin-bottom: 25px;
+            display: none;
+            background: var(--danger-bg);
+            padding: 15px 20px;
+            border-radius: 14px;
+            border: 2px solid #fecaca;
+            animation: shake 0.5s ease;
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-8px); }
+            75% { transform: translateX(8px); }
+        }
+
+        /* Footer info */
+        .footer-info {
+            text-align: center;
+            color: var(--text-gray);
+            font-size: 0.85rem;
+            margin-top: 30px;
+            padding: 20px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header { padding: 12px 15px; }
+            .header-title { font-size: 1rem; }
+            .container { padding: 20px 12px 40px; }
+            .question-card { padding: 20px 16px; }
+            .q-text { font-size: 1.05rem; }
+            .section-title { font-size: 1.25rem; }
+            .btn-submit { font-size: 1.1rem; padding: 16px; }
+            .tf-table th, .tf-table td { padding: 10px 8px; font-size: 0.85rem; }
+            .tf-table td.center { width: 55px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-left">
+            <div class="header-icon"><i class="fas fa-landmark"></i></div>
+            <div>
+                <div class="header-title">ĐỀ THI THPT QUỐC GIA 2026</div>
+                <div class="header-subtitle">Môn Lịch Sử · Mã đề 001</div>
+            </div>
+        </div>
+        <div class="header-right">
+            <div class="question-count" id="questionCount">
+                <i class="fas fa-clipboard-list"></i> <span id="answeredText">0/48</span>
+            </div>
+            <div class="timer" id="timer">
+                <i class="far fa-clock"></i> <span id="timerText">45:00</span>
+            </div>
+        </div>
+    </header>
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <div class="container">
+        <div class="result-preview" id="resultPreview">
+            <i class="fas fa-star" style="font-size: 2.5rem; color: #fbbf24; margin-bottom: 8px;"></i>
+            <div style="font-weight: 700; color: var(--text-gray); text-transform: uppercase; letter-spacing: 1px; font-size: 0.9rem;">Điểm của bạn (Thang 10)</div>
+            <div class="preview-score" id="previewScore">0.00</div>
+            <button onclick="window.open('index2.html', '_blank')" style="margin-top: 15px; padding: 12px 30px; background: linear-gradient(135deg, #f59e0b, #fbbf24); color: #1e293b; border: none; border-radius: 25px; font-weight: 700; cursor: pointer; font-size: 1rem; box-shadow: 0 8px 20px rgba(245, 158, 11, 0.3);">
+                <i class="fas fa-external-link-alt" style="margin-right: 6px;"></i> Xem Phiếu Điểm Chi Tiết
+            </button>
+        </div>
+
+        <form id="quizForm">
+            <h2 class="section-title">
+                <i class="fas fa-check-circle"></i> 
+                Phần I. Trắc nghiệm nhiều phương án lựa chọn
+            </h2>
+            <div class="section-subtitle">
+                <i class="fas fa-info-circle"></i> Từ câu 1 đến câu 28. Mỗi câu đúng được <b>0,25 điểm gốc</b>. Tổng tối đa: <b>7,00 điểm gốc</b>.
+            </div>
+            <div id="part1-container"></div>
+
+            <h2 class="section-title">
+                <i class="fas fa-balance-scale"></i> 
+                Phần II. Trắc nghiệm Đúng/Sai
+            </h2>
+            <div class="section-subtitle">
+                <i class="fas fa-info-circle"></i> Từ câu 1 đến câu 5. Mỗi câu gồm 4 ý (a, b, c, d).<br>
+                <i class="fas fa-calculator"></i> Quy tắc chấm: <b>1 ý đúng = 0,1đ</b> | <b>2 ý = 0,25đ</b> | <b>3 ý = 0,5đ</b> | <b>4 ý = 1,0đ</b>. Tổng tối đa: <b>5,00 điểm gốc</b>.
+            </div>
+            <div id="part2-container"></div>
+
+            <div id="errorMsg" class="error-msg">
+                <i class="fas fa-exclamation-triangle"></i> Bạn chưa hoàn thành tất cả các câu hỏi. Vui lòng kiểm tra lại!
+            </div>
+            <button type="button" class="btn-submit" id="submitBtn" onclick="submitQuiz()">
+                <i class="fas fa-paper-plane" style="margin-right: 10px;"></i>NỘP BÀI & XEM KẾT QUẢ
+            </button>
+        </form>
+
+        <div class="footer-info">
+            <i class="fas fa-shield-alt" style="margin-right: 6px; color: var(--primary);"></i>
+            Bài thi được chấm theo thang điểm chuẩn của Bộ GD&amp;ĐT - Form 2026
+        </div>
+    </div>
+
+    <script>
+        // ==================== DATA ====================
+        const part1Data = [
+            { id: 1, q: "Quốc gia nào sau đây ở Đông Nam Á đi theo con đường xã hội chủ nghĩa?", options: { A: "Thái Lan.", B: "Việt Nam.", C: "Hàn Quốc.", D: "Nhật Bản." }, ans: "B", 
+              exp: { right: "Việt Nam (và Lào) là các quốc gia đi theo định hướng xã hội chủ nghĩa tại Đông Nam Á hiện nay.", wrong: "Thái Lan theo chế độ Quân chủ lập hiến. Hàn Quốc và Nhật Bản thuộc khu vực Đông Á và đi theo con đường Tư bản chủ nghĩa.", theory: "Sau Chiến tranh thế giới thứ hai, phong trào giải phóng dân tộc phát triển mạnh. Mỗi quốc gia sau khi giành độc lập lựa chọn một con đường phát triển riêng phù hợp với hoàn cảnh lịch sử." } },
+            { id: 2, q: "Đại hội lần thứ nhất các Xô viết toàn Liên bang (1922) tại Mátxcơva đã thông qua văn kiện nào sau đây?", options: { A: "Hiến chương Liên hợp quốc.", B: "Tuyên ngôn thành lập Liên Xô.", C: "Hiệp ước thân thiện và hợp tác ở Đông Nam Á.", D: "Hiệp ước Xô – Đức không xâm lược nhau." }, ans: "B", 
+              exp: { right: "Tháng 12/1922, Đại hội thông qua Tuyên ngôn thành lập Liên bang CHXHCN Xô viết và Hiệp ước Liên bang.", wrong: "A là văn kiện của LHQ (1945). C là của tổ chức ASEAN (1976). D được ký năm 1939 trước khi CTTG 2 bùng nổ.", theory: "Sự kiện thành lập Liên Xô (1922) đánh dấu sức mạnh đoàn kết của các nước cộng hòa Xô viết, tạo cơ sở vững chắc cho công cuộc xây dựng chủ nghĩa xã hội." } },
+            { id: 3, q: "Nhà Lý thực hiện kế sách \"Tiên phát chế nhân\" trong cuộc kháng chiến chống quân xâm lược nào sau đây?", options: { A: "Quân Tống.", B: "Quân Xiêm.", C: "Quân Thanh.", D: "Quân Anh." }, ans: "A", 
+              exp: { right: "Kế sách 'Ngồi yên đợi giặc không bằng đem quân đánh trước để chặn thế mạnh của giặc' do Lý Thường Kiệt áp dụng để chống quân Tống (1075).", wrong: "Quân Xiêm (1785) và Thanh (1789) do Nguyễn Huệ - Quang Trung lãnh đạo đánh bại. Quân Anh vào miền Nam VN năm 1945.", theory: "Nghệ thuật quân sự độc đáo của nhà Lý: Tiến công phòng ngự tích cực. Chủ động đánh sang đất địch rồi rút về lập tuyến phòng thủ vững chắc trên sông Như Nguyệt." } },
+            { id: 4, q: "Cuộc khởi nghĩa Lam Sơn thắng lợi (1427) đưa tới sự thành lập triều đại nào sau đây?", options: { A: "Nhà Trần.", B: "Nhà Nguyễn.", C: "Nhà Hồ.", D: "Nhà Lê sơ." }, ans: "D", 
+              exp: { right: "Năm 1427 khởi nghĩa Lam Sơn thắng lợi. Năm 1428, Lê Lợi lên ngôi Hoàng đế, lập ra nhà Lê sơ.", wrong: "Nhà Trần (1226-1400), Nhà Hồ (1400-1407), Nhà Nguyễn (1802-1945) đều không khớp với mốc thời gian này.", theory: "Khởi nghĩa Lam Sơn (1418-1427) kết thúc ách đô hộ của nhà Minh, mở ra thời kỳ phát triển thịnh trị của quốc gia Đại Việt dưới triều đại Lê sơ." } },
+            { id: 5, q: "Tổ chức nào sau đây được thành lập (1945) với mục tiêu duy trì hòa bình và an ninh quốc tế?", options: { A: "Tổ chức Hiệp ước Bắc Đại Tây Dương.", B: "Hiệp hội Đông Nam Á.", C: "Liên hợp quốc.", D: "Tổ chức Hiệp ước Vác-sa-va." }, ans: "C", 
+              exp: { right: "Liên hợp quốc được thành lập năm 1945 với mục đích cao nhất là duy trì hòa bình và an ninh thế giới.", wrong: "NATO (A) và Vác-sa-va (D) là các liên minh quân sự thời Chiến tranh lạnh. ASEAN (B) thành lập năm 1967.", theory: "Sự ra đời của Liên hợp quốc phản ánh khát vọng hòa bình của nhân dân thế giới sau những hậu quả tàn khốc của Chiến tranh thế giới thứ hai." } },
+            { id: 6, q: "Hội nghị I-an-ta (tháng 2-1945) được diễn ra trong giai đoạn nào sau đây của Chiến tranh thế giới thứ hai?", options: { A: "Giai đoạn sắp kết thúc.", B: "Bùng nổ và lan rộng.", C: "Vừa mới kết thúc.", D: "Vừa mới bùng nổ." }, ans: "A", 
+              exp: { right: "Tháng 2/1945, Chiến tranh thế giới thứ hai bước vào giai đoạn sắp kết thúc, các nước Đồng minh (Anh, Mỹ, Liên Xô) họp tại I-an-ta.", wrong: "Chiến tranh chưa kết thúc (phải đến tháng 8/1945 Nhật mới đầu hàng). Các đáp án B, D thuộc về giai đoạn 1939-1941.", theory: "Hội nghị I-an-ta có nhiệm vụ trọng tâm là nhanh chóng đánh bại hoàn toàn các nước phát xít, tổ chức lại thế giới sau chiến tranh và phân chia khu vực ảnh hưởng." } },
+            { id: 7, q: "Nội dung nào sau đây là biểu hiện của xu thế đa cực trong quan hệ quốc tế sau Chiến tranh lạnh?", options: { A: "Sự suy giảm sức mạnh tương đối của Mỹ.", B: "Các quốc gia chạy đua vũ trang mạnh mẽ.", C: "Đông Nam Á phát triển nhanh nhất thế giới.", D: "Xu thế liên kết khu vực trở thành chủ đạo." }, ans: "A", 
+              exp: { right: "Sau Chiến tranh lạnh, Mỹ vươn lên muốn thiết lập thế đơn cực, nhưng sự vươn lên của các cường quốc khác (Nhật, EU, Trung Quốc, Nga) làm sức mạnh của Mỹ suy giảm tương đối, định hình thế giới đa cực.", wrong: "B là biểu hiện của thời kỳ Chiến tranh lạnh. C và D không phản ánh trực tiếp cấu trúc cực của thế giới.", theory: "Sau năm 1991, trật tự hai cực Ianta sụp đổ, thế giới tiến tới xu hướng đa cực, nhiều trung tâm với sự cạnh tranh mạnh mẽ về kinh tế." } },
+            { id: 8, q: "Năm 1967, quốc gia nào sau đây tham gia sáng lập Hiệp hội các quốc gia Đông Nam Á?", options: { A: "Mông Cổ.", B: "Nhật Bản.", C: "In-đô-nê-xi-a.", D: "Ấn Độ." }, ans: "C", 
+              exp: { right: "In-đô-nê-xi-a là một trong 5 quốc gia sáng lập ASEAN năm 1967 (cùng với Thái Lan, Malaysia, Singapore, Philippines).", wrong: "Mông Cổ, Nhật Bản, Ấn Độ không nằm trong khu vực Đông Nam Á.", theory: "ASEAN ra đời trong bối cảnh các nước Đông Nam Á muốn hợp tác phát triển kinh tế và hạn chế sự ảnh hưởng của các cường quốc bên ngoài." } },
+            { id: 9, q: "Nội dung nào sau đây là một trong những hoạt động nổi bật của Hiệp hội các quốc gia Đông Nam Á (ASEAN) trong giai đoạn 1976-1999?", options: { A: "Phát triển số lượng thành viên từ 5 nước lên 10 nước.", B: "Hợp tác hiệu quả trong hoạt động chống chủ nghĩa khủng bố.", C: "Bước đầu phát triển về cơ cấu tổ chức, nguyên tắc hoạt động.", D: "Các nước tập trung hợp tác trên lĩnh vực chính trị - an ninh." }, ans: "A", 
+              exp: { right: "Giai đoạn này chứng kiến sự mở rộng của ASEAN: Brunei (1984), Việt Nam (1995), Lào, Myanmar (1997) và Campuchia (1999).", wrong: "C là giai đoạn 1967-1975. B và D là những hoạt động tiêu biểu của giai đoạn sau năm 2000 trở đi.", theory: "Quá trình mở rộng thành viên từ ASEAN 5 lên ASEAN 10 là một thành tựu to lớn, chấm dứt sự chia rẽ trong khu vực Đông Nam Á do tác động của Chiến tranh lạnh." } },
+            { id: 10, q: "Cơ sở pháp lý của Cộng đồng ASEAN là", options: { A: "Hiến chương ASEAN.", B: "Tầm nhìn ASEAN 2020.", C: "Tuyên bố Băng Cốc.", D: "Tuyên bố Cua-la Lăm-pơ." }, ans: "A", 
+              exp: { right: "Hiến chương ASEAN (thông qua 2007, có hiệu lực 2008) là văn kiện pháp lý quan trọng nhất, tạo cơ sở pháp lý và khuôn khổ thể chế cho Cộng đồng ASEAN.", wrong: "Tuyên bố Băng Cốc (1967) chỉ là văn kiện thành lập. Các tuyên bố khác là định hướng, không phải cơ sở pháp lý tối cao.", theory: "Việc thông qua Hiến chương đánh dấu việc ASEAN từ một diễn đàn hợp tác lỏng lẻo chuyển thành một tổ chức có tư cách pháp nhân và quy định ràng buộc." } },
+            { id: 11, q: "Chế độ phong kiến ở Việt Nam hoàn toàn sụp đổ được đánh dấu bằng sự kiện nào sau đây?", options: { A: "Vua Bảo Đại tuyên bố thoái vị, trao ấn kiếm cho chính quyền cách mạng.", B: "Nhà Nguyễn ký với Pháp Hiệp ước Pa-tơ-nốt, thừa nhận sự bảo hộ của Pháp.", C: "Phát xít Nhật vào Đông Dương và cấu kết với Pháp để thống trị Việt Nam.", D: "Nhân dân các địa phương Hà Nội, Huế, Sài Gòn giành được chính quyền." }, ans: "A", 
+              exp: { right: "Chiều ngày 30-8-1945 tại Ngọ Môn (Huế), Vua Bảo Đại trao ấn kiếm cho đại diện Chính phủ lâm thời, chính thức chấm dứt chế độ phong kiến.", wrong: "B (1884) là mốc mất độc lập hoàn toàn vào tay Pháp. D là các bước đà tiến tới hoàn thành cách mạng chứ chưa phải sự kiện chốt hạ sụp đổ phong kiến.", theory: "Sự kiện Vua Bảo Đại thoái vị là mốc son đánh dấu Cách mạng tháng Tám cơ bản thành công, lật đổ ngai vàng phong kiến tồn tại hàng ngàn năm ở nước ta." } },
+            { id: 12, q: "Ngày 13-8-1945, khi nhận được tin Nhật Bản sắp đầu hàng Đồng minh, Trung ương Đảng và Tổng bộ Việt Minh đã thành lập", options: { A: "Ủy ban Khởi nghĩa toàn quốc.", B: "Ủy ban Dân tộc giải phóng Việt Nam.", C: "Ủy ban Quân sự cách mạng Bắc Kì.", D: "Ủy ban lâm thời Khu giải phóng." }, ans: "A", 
+              exp: { right: "Tối 13/8/1945, Ủy ban Khởi nghĩa toàn quốc được thành lập và ban bố 'Quân lệnh số 1', chính thức phát động Tổng khởi nghĩa.", wrong: "Ủy ban Dân tộc giải phóng (B) được lập tại Quốc dân Đại hội Tân Trào (16-17/8).", theory: "Đảng ta đã chớp thời cơ cực kỳ nhạy bén, ra quyết định Tổng khởi nghĩa ngay trước khi Nhật chính thức đầu hàng (15/8)." } },
+            { id: 13, q: "Tháng 2-1951, Đại hội đại biểu toàn quốc lần thứ II của Đảng Cộng sản Đông Dương đã có quyết định nào sau đây?", options: { A: "Đưa Đảng ra hoạt động công khai.", B: "Phát động Toàn quốc kháng chiến.", C: "Hoàn thành công nghiệp hóa đất nước.", D: "Hoàn thành hiện đại hóa đất nước." }, ans: "A", 
+              exp: { right: "Đại hội II (1951) quyết định đưa Đảng ra hoạt động công khai với tên gọi mới là Đảng Lao động Việt Nam.", wrong: "B là tháng 12/1946. C và D là nhiệm vụ của thời kỳ đổi mới sau này.", theory: "Việc đưa Đảng ra hoạt động công khai đáp ứng yêu cầu mới của cuộc kháng chiến chống Pháp, tăng cường sự lãnh đạo của Đảng đối với các tầng lớp nhân dân." } },
+            { id: 14, q: "Đối với cách mạng Việt Nam, việc phát xít Nhật đầu hàng Đồng minh không điều kiện (15-8-1945) đã", options: { A: "tạo điều kiện khách quan thuận lợi cho tổng khởi nghĩa.", B: "mở ra thời kỳ trực tiếp cho cuộc vận động giải phóng dân tộc.", C: "tạo cơ hội cho quân Đồng minh trợ giúp nhân dân khởi nghĩa.", D: "tạo điều kiện thuận lợi cho cuộc khởi nghĩa từng phần." }, ans: "A", 
+              exp: { right: "Việc kẻ thù chính (Nhật Bản) gục ngã đã tạo ra 'thời cơ vàng', là điều kiện khách quan vô cùng thuận lợi để nhân dân ta nổi dậy giành chính quyền.", wrong: "B là Hội nghị Trung ương 8 (5/1941). C sai vì quân Đồng minh vào VN là để giải giáp Nhật, không phải trợ giúp ta. D là giai đoạn từ tháng 3/1945.", theory: "Thời cơ trong Cách mạng tháng Tám là sự kết hợp giữa điều kiện chủ quan (sự chuẩn bị chu đáo của ta) và điều kiện khách quan (kẻ thù khủng hoảng sâu sắc)." } },
+            { id: 15, q: "Từ năm 1950, cuộc kháng chiến chống Pháp của nhân dân Việt Nam có thêm \"hậu phương mới\" nào sau đây?", options: { A: "Các nước xã hội chủ nghĩa.", B: "Căn cứ địa Việt Bắc.", C: "Căn cứ ở vùng đồng bằng.", D: "Các nước Đông Nam Á." }, ans: "A", 
+              exp: { right: "Đầu năm 1950, Trung Quốc, Liên Xô và các nước XHCN khác lần lượt công nhận và đặt quan hệ ngoại giao, trở thành hậu phương quốc tế to lớn của VN.", wrong: "Việt Bắc (B) là hậu phương tại chỗ, đã có từ trước năm 1950.", theory: "Năm 1950 đánh dấu bước ngoặt về ngoại giao của ta, phá vỡ thế bao vây cô lập của Pháp, nối liền nước ta với phe XHCN." } },
+            { id: 16, q: "Nội dung nào sau đây phản ánh đúng nét nổi bật nhất của tình hình Việt Nam sau Hiệp định Giơ-ne-vơ năm 1954 về Đông Dương?", options: { A: "Đất nước bị chia cắt làm hai miền với hai chế độ chính trị khác nhau.", B: "Mĩ thay chân Pháp, đưa tay sai lên nắm chính quyền ở miền Nam.", C: "Miền Bắc hoàn toàn giải phóng và tiến lên xây dựng chủ nghĩa xã hội.", D: "Miền Nam trở thành thuộc địa kiểu mới và là căn cứ quân sự của Mĩ." }, ans: "A", 
+              exp: { right: "Đặc điểm lớn nhất, bao trùm nhất là đất nước tạm thời bị chia cắt làm 2 miền: Miền Bắc độc lập đi lên XHCN, miền Nam tiếp tục đấu tranh chống đế quốc.", wrong: "B, C, D đều đúng nhưng chỉ là những khía cạnh đơn lẻ của từng miền, không phản ánh được bức tranh TOÀN CẢNH của cả nước.", theory: "Đặc điểm đất nước tạm thời bị chia cắt đã quy định nhiệm vụ chiến lược của cách mạng hai miền: vừa xây dựng CNXH ở miền Bắc, vừa hoàn thành CMDTDCND ở miền Nam." } },
+            { id: 17, q: "Trong đường lối đổi mới đất nước (tháng 12-1986), Đảng Cộng sản Việt Nam xác định trọng tâm là đổi mới về", options: { A: "kinh tế.", B: "chính trị.", C: "tư tưởng.", D: "văn hóa." }, ans: "A", 
+              exp: { right: "Đại hội VI (1986) xác định đường lối đổi mới toàn diện, nhưng trọng tâm là đổi mới về kinh tế.", wrong: "Chính trị, tư tưởng, văn hóa đều được đổi mới nhưng phải đi từng bước vững chắc, lấy kinh tế làm mũi nhọn.", theory: "Đất nước ta lúc bấy giờ đang lâm vào khủng hoảng kinh tế - xã hội trầm trọng. Đổi mới kinh tế là vấn đề sống còn để cứu vãn và phát triển đất nước." } },
+            { id: 18, q: "Trong đường lối đổi mới đất nước (từ 12/1986), Đảng Cộng sản Việt Nam chủ trương", options: { A: "đổi mới toàn diện và đồng bộ.", B: "tập trung đổi mới về kinh tế và xã hội.", C: "tập trung đổi mới về chính trị, tư tưởng.", D: "đổi mới căn bản và toàn diện." }, ans: "A", 
+              exp: { right: "Đổi mới toàn diện và đồng bộ trên mọi lĩnh vực từ kinh tế, chính trị đến xã hội, văn hóa là quan điểm chỉ đạo xuyên suốt của Đảng.", wrong: "Các đáp án khác bị thiếu sót. Chỉ tập trung kinh tế hoặc chính trị là phiến diện.", theory: "Đổi mới phải toàn diện vì các lĩnh vực có mối quan hệ biện chứng với nhau. Kinh tế phát triển tạo đà cho chính trị ổn định và ngược lại." } },
+            { id: 19, q: "Trong công cuộc Đổi mới (từ năm 1986 đến nay), Việt Nam đạt được thành tựu chính trị nào sau đây?", options: { A: "Xây dựng Nhà nước pháp quyền xã hội chủ nghĩa.", B: "Trở thành nước xã hội chủ nghĩa đầu tiên trên thế giới.", C: "Xây dựng nền kinh tế kế hoạch hóa có sự quản lí của Nhà nước.", D: "Giải quyết được mọi tranh chấp về biên giới, lãnh thổ." }, ans: "A", 
+              exp: { right: "Việc xây dựng và hoàn thiện Nhà nước pháp quyền XHCN của dân, do dân, vì dân là thành tựu chính trị nổi bật.", wrong: "Nước XHCN đầu tiên là Liên Xô (B). Cơ chế kinh tế (C) là của thời kỳ trước Đổi mới. D là nhận định sai vì tranh chấp chủ quyền (ví dụ Biển Đông) vẫn còn phức tạp.", theory: "Nhà nước pháp quyền là bước tiến lớn về tư duy chính trị, đảm bảo quyền làm chủ thực sự của nhân dân bằng hiến pháp và pháp luật." } },
+            { id: 20, q: "Hoạt động đối ngoại của Phan Châu Trinh (đầu thế kỉ XX) diễn ra ở quốc gia nào sau đây?", options: { A: "Pháp.", B: "Liên Xô.", C: "Nhật Bản.", D: "Trung Quốc." }, ans: "A", 
+              exp: { right: "Năm 1911, Phan Châu Trinh sang Pháp và có nhiều hoạt động yêu nước, kêu gọi chính phủ Pháp cải cách ở Đông Dương.", wrong: "Nhật Bản (C) là địa bàn hoạt động chính của phong trào Đông Du do Phan Bội Châu khởi xướng.", theory: "Phan Châu Trinh mang tư tưởng canh tân, dựa vào Pháp để đánh đổ ngôi vua phong kiến hủ bại, phát triển dân trí, dân quyền." } },
+            { id: 21, q: "Một trong những phẩm chất tốt đẹp của xứ Nghệ đã được Chủ tịch Hồ Chí Minh tiếp thu và thể hiện rõ nét trong cuộc đời hoạt động các mạng là", options: { A: "ý chí trong học tập.", B: "trọng nghĩa khinh tài.", C: "giỏi nghề thủ công.", D: "kinh nghiệm đi biển." }, ans: "A", 
+              exp: { right: "Ý chí kiên cường trong học tập, tinh thần hiếu học, vượt khó vươn lên là phẩm chất nổi bật của người xứ Nghệ mà Bác Hồ đã tiếp thu sâu sắc.", wrong: "Các phẩm chất khác không phải là nét đặc trưng truyền thống đậm nét nhất ảnh hưởng đến tư tưởng cứu nước của Bác.", theory: "Truyền thống văn hóa, lịch sử của quê hương Nghệ An đã góp phần hun đúc nên tư tưởng, đạo đức và nhân cách lớn của Chủ tịch Hồ Chí Minh." } },
+            { id: 22, q: "Trong thời gian ở Pháp (1917-1923), Nguyễn Ái Quốc có hoạt động nào sau đây?", options: { A: "Tham gia sáng lập Hội Liên hiệp các dân tộc thuộc địa.", B: "Tham dự Đại hội V của Quốc tế Cộng sản.", C: "Soạn thảo Cương lĩnh chính trị đầu tiên của Đảng.", D: "Chủ trì hội nghị hợp nhất các tổ chức cộng sản." }, ans: "A", 
+              exp: { right: "Năm 1921, Nguyễn Ái Quốc cùng một số nhà yêu nước khác lập ra Hội Liên hiệp các dân tộc thuộc địa tại Paris (Pháp).", wrong: "Đại hội V (B) là ở Liên Xô (1924). C và D diễn ra tại Hương Cảng, Trung Quốc (1930).", theory: "Giai đoạn ở Pháp là lúc Người tìm thấy chân lý cứu nước (Chủ nghĩa Mác - Lenin) và có những hoạt động tích cực về báo chí, tuyên truyền." } },
+            { id: 23, q: "Cuối thế kỉ XIX, hoàn cảnh nào sau đây của đất nước Việt Nam đã ảnh hưởng đến cuộc đời và sự nghiệp của Hồ Chí Minh?", options: { A: "Thực dân Pháp đã đặt được ách cai trị trên toàn lãnh thổ Việt Nam.", B: "Phong trào đấu tranh theo khuynh hướng vô sản diễn ra rộng khắp.", C: "Cách mạng Việt Nam đi theo con đường cách mạng vô sản.", D: "Thực dân Pháp hoàn thành cuộc khai thác thuộc địa lần thứ nhất." }, ans: "A", 
+              exp: { right: "Cuối thế kỷ XIX (sau Hiệp ước 1884), Pháp cơ bản hoàn thành xâm lược và thiết lập ách cai trị. Nước ta mất độc lập, đây là nỗi đau đáu thôi thúc Bác ra đi tìm đường cứu nước.", wrong: "B và C là của thế kỷ XX. Khai thác thuộc địa lần 1 (D) bắt đầu từ năm 1897, kéo dài sang đầu thế kỷ XX.", theory: "Sự mất mát độc lập chủ quyền, cộng với sự thất bại của các phong trào yêu nước tiền bối đã đòi hỏi lịch sử phải tìm ra một con đường cứu nước mới." } },
+            { id: 24, q: "Trong chiến đấu chống chiến lược \"Chiến tranh đặc biệt\" (1961-1965) của Mỹ, nhân dân miền Nam Việt Nam đã giành thắng lợi quân sự nào sau đây?", options: { A: "Ấp Bắc.", B: "Núi Thành.", C: "Vạn Tường.", D: "Phước Long." }, ans: "A", 
+              exp: { right: "Chiến thắng Ấp Bắc (Mỹ Tho, tháng 1/1963) là trận đánh tiêu biểu chứng minh quân dân miền Nam có khả năng đánh bại 'Chiến tranh đặc biệt'.", wrong: "Núi Thành và Vạn Tường (1965) thuộc chống 'Chiến tranh cục bộ'. Phước Long (1975) giải phóng cuối chiến tranh.", theory: "Trận Ấp Bắc dấy lên phong trào 'Thi đua Ấp Bắc, giết giặc lập công' trên toàn miền Nam, đánh bại chiến thuật 'trực thăng vận' và 'thiết xa vận'." } },
+            { id: 25, q: "Nội dung nào sau đây phản ánh đúng điểm tương đồng của đấu tranh ngoại giao trong cuộc kháng chiến chống thực dân Pháp (1945-1954) và đế quốc Mỹ (1954-1975) ở Việt Nam?", options: { A: "Đấu tranh ngoại giao có quan hệ chặt chẽ với đấu tranh chính trị.", B: "Đấu tranh ngoại giao luôn đi trước mở đường cho đấu tranh quân sự.", C: "Mặt trận ngoại giao được hình thành ngay từ đầu cuộc kháng chiến.", D: "Hoạt động ngoại giao chịu sự chi phối hoàn toàn của hoạt động quân sự." }, ans: "A", 
+              exp: { right: "Trong cả hai cuộc kháng chiến, mặt trận ngoại giao không đứng độc lập mà có sự kết hợp, hỗ trợ chặt chẽ với mặt trận quân sự và chính trị.", wrong: "Ngoại giao không đi trước mở đường (B). Chống Pháp thì ngoại giao chưa thành mặt trận từ đầu (C). Ngoại giao có tính độc lập tương đối, không bị chi phối hoàn toàn (D).", theory: "Ngoại giao là sự phản ánh thực lực trên chiến trường, đồng thời tạo dư luận quốc tế ủng hộ, ép đối phương trên bàn đàm phán." } },
+            { id: 26, q: "Nội dung nào sau đây phản ánh đúng điểm tương đồng giữa Hiệp định Giơ-ne-vơ (1954) về Đông Dương và Hiệp định Pa-ri (1973) về Việt Nam?", options: { A: "Các nước đế quốc phải công nhận tính thống nhất của Việt Nam.", B: "Việt Nam thể hiện tính tự chủ và tự quyết trong đấu tranh ngoại giao.", C: "Là kết quả của các cuộc đàm phán diễn ra nhanh chóng, hài hòa.", D: "Là mốc đánh dấu kết thúc các cuộc chiến tranh xâm lược của kẻ thù." }, ans: "A", 
+              exp: { right: "Cả hai Hiệp định, các nước đế quốc (Pháp, Mỹ) đều phải cam kết tôn trọng các quyền dân tộc cơ bản của VN: Độc lập, chủ quyền, THỐNG NHẤT và toàn vẹn lãnh thổ.", wrong: "B sai vì ở Giơ-ne-vơ ta còn bị chi phối bởi các nước lớn. C sai vì đàm phán Paris kéo dài tới 5 năm. D sai vì năm 1954 và 1973 chưa kết thúc hoàn toàn chiến tranh (Mỹ vẫn để lại cố vấn sau 1973).", theory: "Việc buộc kẻ thù công nhận tính thống nhất về mặt pháp lý quốc tế là thành tựu vĩ đại, làm cơ sở để ta tiến lên giải phóng hoàn toàn đất nước." } },
+            { id: 27, q: "Năm 1995, Việt Nam có hoạt động đối ngoại nổi bật nào sau đây?", options: { A: "Việt Nam và Hoa Kỳ bình thường hóa quan hệ ngoại giao.", B: "Phát triển quan hệ đối tác chiến lược toàn diện với Ấn Độ.", C: "Việt Nam và Liên Xô ký Hiệp ước hữu nghị và hợp tác.", D: "Việt Nam gia nhập Tổ chức Thương mại Thế giới (WTO)." }, ans: "A", 
+              exp: { right: "Tháng 7/1995, Việt Nam và Hoa Kỳ chính thức bình thường hóa quan hệ ngoại giao, khép lại quá khứ đối đầu.", wrong: "C là năm 1978. D là năm 2007 (gia nhập WTO).", theory: "Sự kiện bình thường hóa quan hệ với Mỹ đánh dấu việc Việt Nam chính thức phá vỡ hoàn toàn thế bao vây cấm vận, hội nhập sâu rộng quốc tế." } },
+            { id: 28, q: "Năm 1995, Việt Nam trở thành thành viên của tổ chức nào sau đây?", options: { A: "Hiệp hội các quốc gia Đông Nam Á (ASEAN).", B: "Liên minh chính trị - quân sự Vác-sa-va.", C: "Hội đồng tương trợ kinh tế (SEV).", D: "Tổ chức Thương mại Thế giới (WTO)." }, ans: "A", 
+              exp: { right: "Ngày 28/7/1995, Việt Nam chính thức gia nhập và trở thành thành viên thứ 7 của ASEAN.", wrong: "SEV giải thể năm 1991. WTO ta gia nhập năm 2007.", theory: "Gia nhập ASEAN là mốc son về đối ngoại của Việt Nam thời kỳ đổi mới, thực hiện chủ trương 'Việt Nam muốn là bạn với tất cả các nước'." } }
+        ];
+
+        const part2Data = [
+            {
+                id: 1,
+                passage: "\"Trật tự thế giới này được hình thành như thế nào, còn tùy thuộc ở nhiều nhân tố: Sự phát triển về thực lực kinh tế, chính trị, quân sự của các cường quốc Mỹ, Nga, Trung Quốc, Anh, Pháp, Nhật Bản, Đức trong cuộc chạy đua về sức mạnh quốc gia tổng hợp…; Sự lớn mạnh của lực lượng cách mạng thế giới (sự thành bại của công cuộc cải cách, đổi mới ở các nước xã hội chủ nghĩa);…Sự phát triển của cách mạng khoa học-kĩ thuật sẽ còn tiếp tục tạo ra những \"đột phá\" và biến chuyển trên cục diện thế giới\". (Nguyễn Anh Thái, Lịch sử thế giới hiện đại, NXB Giáo dục Việt Nam)",
+                statements: [
+                    { id: "a", text: "\"Trật tự thế giới\" được nhắc đến trong đoạn tư liệu trên là trật tự thế giới \"hai cực Ianta\" được hình thành sau Chiến tranh thế giới thứ hai.", ans: "S", exp: { core: "Đoạn tư liệu nói về sự hình thành trật tự thế giới 'Đa cực' sau Chiến tranh lạnh. Trật tự Ianta là trật tự 2 cực (Mỹ - Liên Xô) hình thành ngay sau năm 1945." } },
+                    { id: "b", text: "Một trong những nhân tố tác động đến sự hình thành trật tự thế giới mới sau khi Chiến tranh lạnh kết thúc là sự vươn lên mạnh mẽ của các nước Á, Phi, Mĩ-latinh.", ans: "Đ", exp: { core: "Sự vươn lên mạnh mẽ này tương ứng với 'Sự lớn mạnh của lực lượng cách mạng thế giới' được nhắc đến trong tư liệu." } },
+                    { id: "c", text: "Nhân tố đóng vai trò quyết định đến sự hình thành trật tự thế giới mới sau Chiến tranh lạnh là cuộc chạy đua sức mạnh tổng hợp, nhưng sức mạnh kinh tế là trụ cột.", ans: "Đ", exp: { core: "Đây là nhận định hoàn toàn chính xác theo nội dung tư liệu và lý thuyết lịch sử." } },
+                    { id: "d", text: "Một trong những đặc điểm nổi bật của trật tự thế giới mới được thiết lập sau Chiến tranh lạnh là thế giới bị chia thành hai hệ thống xã hội đối lập.", ans: "S", exp: { core: "Sự chia rẽ thành hai hệ thống XHCN và TBCN đối lập là đặc trưng của thời kỳ Chiến tranh lạnh (1947-1989), không phải của thế giới đa cực hiện nay." } }
+                ]
+            },
+            {
+                id: 2,
+                passage: "\"… Chúng ta muốn hòa bình, chúng ta phải nhân nhượng. Nhưng chúng ta càng nhân nhượng, thực dân Pháp càng lấn tới, vì chúng quyết tâm cướp nước ta lần nữa! Không! Chúng ta thà hi sinh tất cả chứ nhất định không chịu mất nước, nhất định không chịu làm nô lệ\". (Hồ Chí Minh, Lời kêu gọi toàn quốc kháng chiến, 19-12-1946)",
+                statements: [
+                    { id: "a", text: "Đoạn trích cho thấy dã tâm xâm lược Việt Nam của thực dân Pháp.", ans: "Đ", exp: { core: "Thể hiện rất rõ qua câu khẳng định: 'thực dân Pháp càng lấn tới, vì chúng quyết tâm cướp nước ta lần nữa!'." } },
+                    { id: "b", text: "Lí do phát động cuộc kháng chiến chống thực dân Pháp trong toàn quốc.", ans: "Đ", exp: { core: "Đoạn trích giải thích lý do ta buộc phải cầm vũ khí: vì ta đã nhân nhượng nhưng Pháp dồn ta vào chân tường." } },
+                    { id: "c", text: "Khẳng định tính chính nghĩa của Việt Nam trong cuộc kháng chiến.", ans: "Đ", exp: { core: "Chúng ta yêu chuộng hòa bình ('muốn hòa bình, phải nhân nhượng'), việc kháng chiến chỉ là hành động tự vệ chính đáng." } },
+                    { id: "d", text: "Khẳng định cuộc kháng chiến của Việt Nam được sự ủng hộ của quốc tế.", ans: "S", exp: { core: "Đoạn trích này chỉ tập trung kêu gọi tinh thần dân tộc và ý chí không chịu mất nước, HOÀN TOÀN KHÔNG đề cập đến sự ủng hộ của quốc tế." } }
+                ]
+            },
+            {
+                id: 3,
+                passage: "\"1. Nhà nước Cộng hòa xã hội chủ nghĩa Việt Nam là nhà nước pháp quyền xã hội chủ nghĩa của Nhân dân, do Nhân dân, vì Nhân dân. 2. Nước Cộng hòa xã hội chủ nghĩa Việt Nam do Nhân dân làm chủ; tất cả quyền lực nhà nước thuộc về Nhân dân mà nền tảng là liên minh giữa giai cấp công nhân với giai cấp nông dân và đội ngũ trí thức. 3. Quyền lực nhà nước là thống nhất, có sự phân công, phối hợp, kiểm soát giữa các cơ quan nhà nước...\"",
+                statements: [
+                    { id: "a", text: "Nhà nước Pháp quyền ở Việt Nam đảm bảo mọi quyền lực thuộc về Nhân dân.", ans: "Đ", exp: { core: "Khớp hoàn toàn với nội dung ý 2 trong tư liệu: 'tất cả quyền lực nhà nước thuộc về Nhân dân'." } },
+                    { id: "b", text: "Nhà nước do Đảng tổ chức, thành lập và lãnh đạo theo Hiến Pháp, Pháp luật.", ans: "S", exp: { core: "Tư liệu và luật pháp khẳng định Nhà nước là do Nhân dân lập ra ('do Nhân dân'), không phải do Đảng tổ chức, thành lập." } },
+                    { id: "c", text: "Nền tảng của quyền lực nhà nước là liên minh công, nông và đội ngũ tri thức.", ans: "Đ", exp: { core: "Trích dẫn nguyên văn từ nội dung mục 2 của đoạn tư liệu." } },
+                    { id: "d", text: "Cơ quan biểu trưng cho quyền lực của Nhân dân là Đảng Cộng sản Việt Nam.", ans: "S", exp: { core: "Đảng Cộng sản Việt Nam là lực lượng LÃNH ĐẠO Nhà nước. Cơ quan biểu trưng quyền lực của Nhân dân là Quốc hội và HĐND các cấp." } }
+                ]
+            },
+            {
+                id: 4,
+                passage: "\"Theo Hồ Chí Minh, trong cuộc kháng chiến chống Mỹ, cứu nước, đấu tranh quân sự và đấu tranh chính trị ở miền Nam là nhân tố chủ yếu quyết định thắng lợi trên chiến trường, làm cơ sở thắng lợi trên mặt trận ngoại giao... Người căn dặn: 'Các chú đi Pháp... phải biết tận dụng thắng lợi trên chiến trường để làm \"vốn\" đàm phán. Phải phối hợp quân sự với ngoại giao, vừa đánh, vừa đàm mới có hiệu quả cao nhất'.\"",
+                statements: [
+                    { id: "a", text: "Hồ Chí Minh nhấn mạnh rằng đấu tranh quân sự và đấu tranh chính trị ở miền Nam là nhân tố quyết định thắng lợi trên chiến trường trong cuộc kháng chiến chống Mỹ.", ans: "Đ", exp: { core: "Khẳng định này nằm ngay ở câu mở đầu của đoạn tư liệu." } },
+                    { id: "b", text: "Hồ Chí Minh cho rằng chỉ cần tập trung vào mặt trận ngoại giao là đủ để đạt được thắng lợi trong cuộc kháng chiến chống Mỹ.", ans: "S", exp: { core: "Phát biểu này sai lệch hoàn toàn với lời dặn của Bác: 'Phải phối hợp quân sự với ngoại giao'." } },
+                    { id: "c", text: "Khi đàm phán quốc tế, cần phối hợp chặt chẽ giữa các thắng lợi quân sự với hoạt động ngoại giao để tối ưu hóa kết quả đạt được.", ans: "Đ", exp: { core: "Đúng với tư tưởng 'tận dụng thắng lợi trên chiến trường để làm vốn đàm phán'." } },
+                    { id: "d", text: "Trong các cuộc đàm phán quốc tế hiện nay, việc tận dụng các thành tựu trên thực địa và khả năng quân sự là yếu tố then chốt để đạt được lợi thế và hiệu quả cao trong ngoại giao.", ans: "Đ", exp: { core: "Đây là sự vận dụng chính xác và suy luận sâu sắc bài học lịch sử 'thực lực là cái chiêng, ngoại giao là cái tiếng' vào bối cảnh hiện nay." } }
+                ]
+            },
+            {
+                id: 5,
+                passage: "\"Trong lịch sử dựng nước và giữ nước, ông cha ta luôn lấy ngoại giao hòa hiếu làm thượng sách giữ nước. Trong đấu tranh giải phóng dân tộc... đối ngoại đi đầu tạo thế 'vừa đánh, vừa đàm', tranh thủ ủng hộ quốc tế, phá bao vây cấm vận... Trong công cuộc đổi mới, đối ngoại 'đi đầu trong kiến tạo hòa bình, bảo vệ Tổ quốc và thu hút nguồn lực cho phát triển đất nước'.\" (Tổng Bí thư Nguyễn Phú Trọng)",
+                statements: [
+                    { id: "a", text: "Trong cuộc kháng chiến chống Mĩ cứu nước, nhân dân Việt Nam đã giành thắng lợi trên cục diện 'vừa đánh, vừa đàm'.", ans: "Đ", exp: { core: "Đây là một thực tiễn lịch sử hiển nhiên và được đề cập đến qua cụm từ 'tạo thế vừa đánh, vừa đàm' trong đoạn trích. Chiến lược này đã được áp dụng thành công trong Hội nghị Paris (1968-1973)." } },
+                    { id: "b", text: "Cục diện 'vừa đánh, vừa đàm' là sự phối hợp chặt giữa đấu tranh chính trị với đấu tranh ngoại giao trên bàn đàm phán.", ans: "S", exp: { core: "Sai bản chất lịch sử. 'Vừa đánh vừa đàm' là sự phối hợp chặt chẽ giữa mặt trận QUÂN SỰ (đánh) trên chiến trường với NGOẠI GIAO (đàm) trên bàn đàm phán, không phải giữa chính trị với ngoại giao." } },
+                    { id: "c", text: "\"Tranh thủ sự ủng hộ của quốc tế\" là một trong những chủ trương xuyên suốt trong hoạt động đối ngoại của Việt Nam.", ans: "Đ", exp: { core: "Đoạn tư liệu chỉ rõ sự xuyên suốt này: từ đấu tranh giải phóng dân tộc (tranh thủ quốc tế, phá bao vây cấm vận) đến công cuộc đổi mới hiện nay (thu hút nguồn lực cho phát triển)." } },
+                    { id: "d", text: "Trong bối cảnh quốc tế hiện nay, Việt Nam cần tiếp tục sử dụng chiến lược \"vừa hợp tác, vừa đấu tranh\" trong quan hệ ngoại giao để bảo vệ lợi ích quốc gia và duy trì ổn định khu vực.", ans: "Đ", exp: { core: "Đây là bài học kế thừa tinh hoa ngoại giao 'hòa hiếu' của ông cha, mềm dẻo nhưng kiên quyết bảo vệ Tổ quốc, phù hợp với đường lối đối ngoại 'độc lập, tự chủ, đa phương hóa, đa dạng hóa' hiện nay." } }
+                ]
+            }
+        ];
+
+        // ==================== APP LOGIC ====================
+        let totalInputs = part1Data.length + (part2Data.length * 4); // 28 + 20 = 48
+        let answeredInputs = new Set();
+        let timeInSeconds = 45 * 60;
+        let timerInterval;
+
+        function renderQuiz() {
+            const p1Container = document.getElementById('part1-container');
+            part1Data.forEach(q => {
+                let optionsHTML = '';
+                for (const [key, value] of Object.entries(q.options)) {
+                    optionsHTML += `
+                        <label class="option-label" id="label-p1-${q.id}-${key}">
+                            <input type="radio" name="p1-${q.id}" value="${key}" onchange="trackProgress('p1-${q.id}')">
+                            <span><b>${key}.</b> ${value}</span>
+                        </label>
+                    `;
+                }
+                p1Container.innerHTML += `
+                    <div class="question-card">
+                        <div class="q-number">Câu ${q.id}</div>
+                        <div class="q-text">${q.q}</div>
+                        <div class="options-grid">${optionsHTML}</div>
+                        <div class="exp-box" id="exp-p1-${q.id}"></div>
+                    </div>
+                `;
+            });
+
+            const p2Container = document.getElementById('part2-container');
+            part2Data.forEach(q => {
+                let rowsHTML = '';
+                q.statements.forEach(stmt => {
+                    rowsHTML += `
+                        <tr>
+                            <td><b>${stmt.id})</b> ${stmt.text}</td>
+                            <td class="center"><label class="tf-option"><input type="radio" name="p2-${q.id}-${stmt.id}" value="Đ" onchange="trackProgress('p2-${q.id}-${stmt.id}')"> Đúng</label></td>
+                            <td class="center"><label class="tf-option"><input type="radio" name="p2-${q.id}-${stmt.id}" value="S" onchange="trackProgress('p2-${q.id}-${stmt.id}')"> Sai</label></td>
+                        </tr>
+                        <tr style="display:none;" id="row-exp-p2-${q.id}-${stmt.id}">
+                            <td colspan="3"><div class="exp-box" id="exp-p2-${q.id}-${stmt.id}" style="margin:0; padding:20px;"></div></td>
+                        </tr>
+                    `;
+                });
+                p2Container.innerHTML += `
+                    <div class="question-card">
+                        <div class="q-number">Câu ${q.id} (Phần II)</div>
+                        <div class="q-text">Đọc đoạn tư liệu sau đây:</div>
+                        <div class="passage"><i class="fas fa-quote-left" style="margin-right: 8px; opacity: 0.4; font-size: 1.5rem;"></i>${q.passage}</div>
+                        <table class="tf-table">
+                            <thead><tr><th>Phát biểu</th><th width="70" class="center">Đúng</th><th width="70" class="center">Sai</th></tr></thead>
+                            <tbody>${rowsHTML}</tbody>
+                        </table>
+                    </div>
+                `;
+            });
+        }
+
+        function trackProgress(name) {
+            answeredInputs.add(name);
+            updateProgressUI();
+            document.getElementById('errorMsg').style.display = 'none';
+        }
+
+        function updateProgressUI() {
+            const progress = (answeredInputs.size / totalInputs) * 100;
+            document.getElementById('progressBar').style.width = `${progress}%`;
+            document.getElementById('answeredText').innerText = `${answeredInputs.size}/${totalInputs}`;
+        }
+
+        function updateTimer() {
+            const m = Math.floor(timeInSeconds / 60).toString().padStart(2, '0');
+            const s = (timeInSeconds % 60).toString().padStart(2, '0');
+            document.getElementById('timerText').innerText = `${m}:${s}`;
+            
+            // Cảnh báo khi còn dưới 5 phút
+            if (timeInSeconds <= 300 && timeInSeconds > 0) {
+                document.getElementById('timer').classList.add('warning');
+            }
+            
+            if (timeInSeconds <= 0) {
+                clearInterval(timerInterval);
+                document.getElementById('timer').classList.add('warning');
+                document.getElementById('timerText').innerText = 'HẾT GIỜ';
+                submitQuiz(true);
+            } else {
+                timeInSeconds--;
+            }
+        }
+
+        function submitQuiz(force = false) {
+            if (!force && answeredInputs.size < totalInputs) {
+                document.getElementById('errorMsg').style.display = 'block';
+                document.getElementById('errorMsg').style.animation = 'none';
+                document.getElementById('errorMsg').offsetHeight; // reflow
+                document.getElementById('errorMsg').style.animation = 'shake 0.5s ease';
+                window.scrollTo({ top: document.getElementById('errorMsg').offsetTop - 120, behavior: 'smooth' });
+                return;
+            }
+
+            clearInterval(timerInterval);
+            document.getElementById('quizForm').classList.add('disabled-layer');
+            document.getElementById('submitBtn').style.display = 'none';
+            document.getElementById('errorMsg').style.display = 'none';
+
+            let rawScoreP1 = 0; 
+            let rawScoreP2 = 0;
+            let correctCountP1 = 0;
+            let wrongCountP1 = 0;
+            let p2DetailsHTML = '';
+
+            // Chấm Part 1
+            part1Data.forEach(q => {
+                const selected = document.querySelector(`input[name="p1-${q.id}"]:checked`);
+                const expDiv = document.getElementById(`exp-p1-${q.id}`);
+                const correctLabel = document.getElementById(`label-p1-${q.id}-${q.ans}`);
+                
+                correctLabel.classList.add('label-correct');
+                let isCorrect = selected && selected.value === q.ans;
+                if (isCorrect) {
+                    rawScoreP1 += 0.25;
+                    correctCountP1++;
+                } else {
+                    wrongCountP1++;
+                }
+                if (selected && !isCorrect) {
+                    document.getElementById(`label-p1-${q.id}-${selected.value}`).classList.add('label-wrong');
+                }
+
+                expDiv.className = `exp-box show ${isCorrect ? 'exp-correct-state' : 'exp-wrong-state'}`;
+                expDiv.innerHTML = `
+                    <div class="exp-header"><i class="fas ${isCorrect ? 'fa-check-circle' : 'fa-times-circle'}" style="font-size: 1.3rem;"></i> ${isCorrect ? 'BẠN ĐÃ CHỌN ĐÚNG' : `CHƯA CHÍNH XÁC (Đáp án đúng: ${q.ans})`}</div>
+                    <div class="exp-section"><strong><i class="fas fa-lightbulb" style="color: #eab308; margin-right: 6px;"></i> Tại sao đúng?</strong> ${q.exp.right}</div>
+                    <div class="exp-section"><strong><i class="fas fa-magnifying-glass" style="color: #ef4444; margin-right: 6px;"></i> Phân tích đáp án sai:</strong> ${q.exp.wrong}</div>
+                    <div class="theory-block"><strong><i class="fas fa-book-open" style="margin-right: 8px;"></i> Kiến thức trọng tâm:</strong> ${q.exp.theory}</div>
+                `;
+            });
+
+            // Chấm Part 2
+            let p2Breakdown = [];
+            part2Data.forEach(q => {
+                let qCorrectCount = 0;
+                let qDetails = [];
+                q.statements.forEach(stmt => {
+                    const selected = document.querySelector(`input[name="p2-${q.id}-${stmt.id}"]:checked`);
+                    const isCorrect = selected && selected.value === stmt.ans;
+                    if (isCorrect) qCorrectCount++;
+
+                    const expRow = document.getElementById(`row-exp-p2-${q.id}-${stmt.id}`);
+                    const expDiv = document.getElementById(`exp-p2-${q.id}-${stmt.id}`);
+                    expRow.style.display = 'table-row';
+                    expDiv.className = `exp-box show ${isCorrect ? 'exp-correct-state' : 'exp-wrong-state'}`;
+                    expDiv.innerHTML = `<strong><i class="fas ${isCorrect ? 'fa-check' : 'fa-times'}" style="margin-right: 6px;"></i> ${isCorrect ? 'LỰA CHỌN ĐÚNG' : `CHỌN SAI (Đáp án chuẩn: ${stmt.ans})`}</strong>: ${stmt.exp.core}`;
+                    
+                    qDetails.push({ id: stmt.id, correct: isCorrect, ans: stmt.ans });
+                });
+
+                let earned = 0;
+                if (qCorrectCount === 1) earned = 0.1;
+                else if (qCorrectCount === 2) earned = 0.25;
+                else if (qCorrectCount === 3) earned = 0.5;
+                else if (qCorrectCount === 4) earned = 1.0;
+                rawScoreP2 += earned;
+                p2Breakdown.push({ id: q.id, correct: qCorrectCount, earned: earned, details: qDetails });
+                p2DetailsHTML += `<li><b>Câu ${q.id} (Đ/S):</b> Đúng ${qCorrectCount}/4 ý → Cộng <b>${earned.toFixed(2)}đ</b></li>`;
+            });
+
+            const totalRaw = rawScoreP1 + rawScoreP2;
+            const maxRaw = (part1Data.length * 0.25) + (part2Data.length * 1.0);
+            const finalScore10 = parseFloat(((totalRaw / maxRaw) * 10).toFixed(2));
+
+            // Hiển thị preview kết quả
+            document.getElementById('previewScore').innerText = finalScore10.toFixed(2);
+            document.getElementById('resultPreview').style.display = 'block';
+
+            // Lưu dữ liệu chi tiết để chuyển sang index2.html
+            const resultData = {
+                finalScore: finalScore10,
+                totalRaw: totalRaw,
+                maxRaw: maxRaw,
+                rawScoreP1: rawScoreP1,
+                rawScoreP2: rawScoreP2,
+                maxP1: part1Data.length * 0.25,
+                maxP2: part2Data.length * 1.0,
+                correctCountP1: correctCountP1,
+                wrongCountP1: wrongCountP1,
+                totalP1: part1Data.length,
+                p2Breakdown: p2Breakdown,
+                p2DetailsHTML: p2DetailsHTML,
+                timeRemaining: timeInSeconds,
+                submitTime: new Date().toLocaleString('vi-VN')
+            };
+            localStorage.setItem('thiLichSu2026_result', JSON.stringify(resultData));
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        window.onload = () => {
+            renderQuiz();
+            timerInterval = setInterval(updateTimer, 1000);
+            updateProgressUI();
+        };
+    </script>
+</body>
+</html>
